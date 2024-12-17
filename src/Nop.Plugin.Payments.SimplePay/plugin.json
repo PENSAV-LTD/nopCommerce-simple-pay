@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Payment methods",
+  "FriendlyName": "OTP Simple Pay",
+  "SystemName": "Payments.SimplePay",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "tmsblzs",
+  "DisplayOrder": -1,
+  "FileName": "Nop.Plugin.Payments.SimplePay.dll",
+  "Description": "OTP Simple Pay plugin helps to you for connection OTP Simple Pay payments."
+}
