@@ -1,7 +1,6 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models;
-internal class StartBase : BaseModel
+internal class TotalAndTimeoutBase : CurrencyBase
 {
-    public string Currency { get; set; }
     public DateTime Timeout { get; set; }
     public int Total { get; set; }
 }

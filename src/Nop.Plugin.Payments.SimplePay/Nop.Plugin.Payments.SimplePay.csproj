@@ -16,6 +16,7 @@
     </PropertyGroup>
     <ItemGroup>
       <None Remove="plugin.json" />
+      <None Remove="Views\_ViewImports.cshtml" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\Presentation\Nop.Web\Nop.Web.csproj" />
@@ -25,10 +26,12 @@
       <Content Include="plugin.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Views\_ViewImports.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Infrastructure\" />
-      <Folder Include="Domain\" />
     </ItemGroup>
     <!-- This target executes after "Build" target -->
     <Target Name="NopTarget" AfterTargets="Build">

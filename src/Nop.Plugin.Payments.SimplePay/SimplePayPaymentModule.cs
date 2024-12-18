@@ -5,11 +5,17 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using Nop.Core.Domain.Orders;
+    using Nop.Plugin.Payments.SimplePay.Settings;
+    using Nop.Services.Configuration;
+    using Nop.Services.Localization;
     using Nop.Services.Payments;
     using Nop.Services.Plugins;
 
     public class SimplePayPaymentModule : BasePlugin, IPaymentMethod
     {
+        private readonly ISettingService _settingService;
+        private readonly ILocalizationService _localizationService;
+
         public bool SupportCapture => throw new NotImplementedException();
 
         public bool SupportPartiallyRefund => throw new NotImplementedException();
@@ -92,6 +98,25 @@
         public Task<VoidPaymentResult> VoidAsync(VoidPaymentRequest voidPaymentRequest)
         {
             throw new NotImplementedException();
+        }
+
+        public override async Task InstallAsync()
+        {
+            await _settingService.SaveSettingAsync(new SimplePaySettings());
+
+            await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
+            {
+            });
+            await base.InstallAsync();
+        }
+
+        public SimplePayPaymentModule(
+            ISettingService settingService,
+            ILocalizationService localizationService
+            )
+        {
+            _settingService = settingService;
+            _localizationService = localizationService;
         }
     }
 }
