@@ -32,6 +32,7 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Infrastructure\" />
+      <Folder Include="Views\Components\" />
     </ItemGroup>
     <!-- This target executes after "Build" target -->
     <Target Name="NopTarget" AfterTargets="Build">
