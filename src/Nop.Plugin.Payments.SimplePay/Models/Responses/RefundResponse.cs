@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
-internal class RefundResponse : CurrencyBase
+public class RefundResponse : CurrencyBase
 {
     public string TransactionId { get; set; }
     public string RefundTransactionId { get; set; }

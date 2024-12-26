@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <Copyright>SOME_COPYRIGHT</Copyright>
+        <Copyright>Copyright © PENSAV KFT</Copyright>
         <Company>PENSAV KFT</Company>
         <Authors>tmsblzs</Authors>
         <PackageLicenseUrl>https://opensource.org/license/mit</PackageLicenseUrl>
@@ -18,6 +18,13 @@
       <None Remove="plugin.json" />
       <None Remove="Views\_ViewImports.cshtml" />
     </ItemGroup>
+  
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+        <_Parameter1>Nop.Plugin.Payments.SimplePay.Functional.Tests</_Parameter1>
+      </AssemblyAttribute>
+    </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\Presentation\Nop.Web\Nop.Web.csproj" />
         <ClearPluginAssemblies Include="$(MSBuildProjectDirectory)\..\..\..\..\Build\ClearPluginAssemblies.proj" />
@@ -31,7 +38,6 @@
       </Content>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Infrastructure\" />
       <Folder Include="Views\Components\" />
     </ItemGroup>
     <!-- This target executes after "Build" target -->

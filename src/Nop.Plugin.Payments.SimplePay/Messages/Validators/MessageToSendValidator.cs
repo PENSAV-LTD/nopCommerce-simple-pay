@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace Nop.Plugin.Payments.SimplePay.Messages.Validators;
-public class MessageToSendValidator
+public class MessageToSendValidator : IMessageToSendValidator
 {
     public string CalculateSignature(string merchantKey, string message)
     {

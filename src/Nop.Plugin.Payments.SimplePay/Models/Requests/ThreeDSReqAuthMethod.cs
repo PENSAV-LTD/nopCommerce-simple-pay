@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 
 namespace Nop.Plugin.Payments.SimplePay.Models.Requests;
-internal enum ThreeDSReqAuthMethod
+public enum ThreeDSReqAuthMethod
 {
     [Description("01")]
     Guest = 1,

@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models.Requests;
-internal class AddressDetail
+public class AddressDetail
 {
     public string Name { get; set; }
     public string Company { get; set; }

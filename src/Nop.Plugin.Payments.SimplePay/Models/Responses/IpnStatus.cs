@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
-internal class IpnStatus
+public class IpnStatus
 {
     public static readonly string FINISHED = "FINISHED";
     public static readonly string AUTHORIZED = "AUTHORIZED";

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
-internal class CallbackResponse
+public class CallbackResponse
 {
     [JsonProperty("r")]
     public string ResponseCode { get; set; }

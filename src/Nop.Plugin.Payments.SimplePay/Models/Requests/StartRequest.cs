@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models.Requests;
-internal class StartRequest : TotalAndTimeoutBase
+public class StartRequest : TotalAndTimeoutBase
 {
     public string CustomerEmail { get; set; }
     public string Language { get; set; }

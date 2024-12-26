@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Nop.Plugin.Payments.SimplePay.Models;
-internal enum PaymentMethods
+public enum PaymentMethods
 {
     [Description("WIRE")]
     Wire,

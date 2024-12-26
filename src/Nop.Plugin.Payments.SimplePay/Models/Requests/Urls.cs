@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models.Requests;
-internal class Urls
+public class Urls
 {
     public string Success { get; set; }
     public string Fail { get; set; }

@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models;
-internal class BaseModel
+public class BaseModel
 {
     public string Salt { get; set; }
     public string Merchant { get; set; }

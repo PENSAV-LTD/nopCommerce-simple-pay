@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
-internal class IpnResponse : BaseModel
+public class IpnResponse : BaseModel
 {
     public PaymentMethods Method { get; set; }
     public DateTime FinishDate { get; set; }
