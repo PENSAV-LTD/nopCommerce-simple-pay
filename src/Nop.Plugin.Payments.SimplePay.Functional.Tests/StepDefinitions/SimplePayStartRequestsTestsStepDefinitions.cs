@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Net.WebSockets;
+using System.Text.Json;
+using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
+using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
+using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Plugin.Payments.SimplePay.Transactions;
 using Reqnroll;
@@ -9,35 +14,66 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
     [Binding]
     public class SimplePayStartRequestsTestsStepDefinitions
     {
-        private readonly SimplePaySettings _simplePaySettings;
-        private readonly SimplePayStartRequest _simplePayStartRequest;
-        private StartRequest _startRequest;
 
         public SimplePayStartRequestsTestsStepDefinitions(
-            SimplePaySettings simplePaySettings,
-            SimplePayStartRequest simplePayStartRequest
+            StartRequestDriver startRequestDriver
             )
         {
-            _simplePaySettings = simplePaySettings;
-            _simplePayStartRequest = simplePayStartRequest;
+            _startRequestDriver = startRequestDriver;
         }
 
-        [Given("I set the merchant key as {string}")]
-        public void GivenISetTheMerchantKeyAs(string merchantKey)
+        private string _merchantKey;
+        private readonly StartRequestDriver _startRequestDriver;
+
+        [Given("Merchant key is set as {string}")]
+        public void GivenMerchantKeyIsSetAs(string merchantKey)
         {
-            _simplePaySettings.MerchantKey = merchantKey;
+            _merchantKey = merchantKey;
         }
 
-        [When("I have a SimplePayStartRequest object")]
-        public void WhenIHaveASimplePayStartRequestObject()
+        [When("StartRequest is sent")]
+        public void WhenStartRequestIsSent()
         {
-            _startRequest = _simplePayStartRequest.CreateStartRequest();
+            if (string.IsNullOrEmpty(_merchantKey))
+            {
+                _startRequestDriver.SendStartRequest();
+            }
+            else
+            {
+                _startRequestDriver.SendStartRequest(_merchantKey);
+            }
         }
 
-        [Then("I should see the merchant key as {string} in the request")]
-        public void ThenIShouldSeeTheMerchantKeyAsInTheRequest(string merchantKey)
+        [Then("Merchant key is {string} in the request")]
+        public void ThenMerchantKeyIsInTheRequest(string merchantKey)
         {
-            _startRequest.Merchant.Should().Be(merchantKey);
+            var request = _startRequestDriver.GetStartRequest();
+            request.Merchant.Should().Be(merchantKey);
         }
+
+        [Given("Request is about to be sent")]
+        public void GivenRequestIsAboutToBeSent()
+        {
+        }
+
+        [Then("Signature is added to header")]
+        public void ThenSignatureIsAddedToHeader()
+        {
+            var headers = _startRequestDriver.GetHeaders();
+            headers.Should().ContainKey("Signature");
+        }
+
+        [Given("Order is ready to pay")]
+        public void GivenOrderIsReadyToPay()
+        {
+            throw new PendingStepException();
+        }
+
+        [Then("Items array is filled with gross prices")]
+        public void ThenItemsArrayIsFilledWithGrossPrices()
+        {
+            throw new PendingStepException();
+        }
+
     }
 }

@@ -3,18 +3,27 @@ Feature: Simple Pay Start request's tests
 Simple Pay start request call
 
 # Test configured merchant key is used in the request
-Scenario: Start request call with default values
-    Given I set the merchant key as "PUBLICTESTHUF" 
-    When  I have a SimplePayStartRequest object
-    Then  I should see the merchant key as "PUBLICTESTHUF" in the request
-
+Scenario: Start request call with given merchant key
+    Given Merchant key is set as "PUBLICTESTHUF" 
+    When  StartRequest is sent
+    Then  Merchant key is "PUBLICTESTHUF" in the request
 
 # Test Signature is added to header
+Scenario: Signarture is added to start request call
+    Given Request is about to be sent
+    When StartRequest is sent
+    Then Signature is added to header
+
 # Test items array is filled with gross prices
+Scenario: Items array is filled with gross prices
+    Given Order is ready to pay
+    When  StartRequest is sent
+    Then  Items array is filled with gross prices
+
 # Test tax of items are always 0
 # Test invoice data is filled with order's invoice data
 # Test delivery information is filled with order's delivery information
-# Test if HasDetaiedItems is not selected, then shippingCost is always filled
+# Test if HasDetailedItems is not selected, then shippingCost is always filled
 # Test if discount's value is always 0
 # Test urls field are always filled with the proper urls
 # Test if IsDefaultCurrencyUsed is selected, default currency used instead of order's currency
