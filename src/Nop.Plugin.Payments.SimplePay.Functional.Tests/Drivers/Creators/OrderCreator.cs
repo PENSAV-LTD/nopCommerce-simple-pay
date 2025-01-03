@@ -1,9 +1,9 @@
 ﻿using Nop.Core.Domain.Orders;
 
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
-public class OrderCreator
+public static class OrderCreator
 {
-    public Order Creator()
+    public static Order Create()
     {
         return new Order
         {

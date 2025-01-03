@@ -2,12 +2,15 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Catalog;
+using Nop.Services.Configuration;
+using Nop.Services.Localization;
 using Nop.Services.Orders;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +34,7 @@ internal class DependecyRegistrar
         //auto-reg all [Binding] types from our assembly
         //builder.RegisterTypes(typeof(DependencyRegistrar).Assembly.GetTypes().Where(t => Attribute.IsDefined(t, typeof(BindingAttribute))).ToArray()).SingleInstance();
 
+        SetupNop(services);
         new Nop.Plugin.Payments.SimplePay.Infrastructure.NopStartup().ConfigureServices(services, configuration);
 
         var settings = new SimplePaySettings
@@ -53,33 +57,29 @@ internal class DependecyRegistrar
         return services;
     }
 
+    private static void SetupNop(IServiceCollection services)
+    {
+        var mockSettingService = new Mock<ISettingService>();
+        services.AddSingleton<ISettingService>(mockSettingService.Object);
+        var mockLocalizationService = new Mock<ILocalizationService>();
+        services.AddSingleton<ILocalizationService>(mockLocalizationService.Object);
+        var mockWebHelper = new Mock<IWebHelper>();
+        services.AddSingleton<IWebHelper>(mockWebHelper.Object);
+    }
+
     private static void SetupOrderService(Mock<IOrderService> mockOrderService, Mock<IProductService> mockProductService)
     {
-        var id1 = 1;
-        var orderItem1 = OrderItemCreator.Create(
-            productId: id1,
-            quantity: 2,
-            unitPrice: 25,
-            taxRate: 27
-            );
-
-        var id2 = 2;
-        var orderItem2 = OrderItemCreator.Create(
-            productId: id2,
-            quantity: 1,
-            unitPrice: 40,
-            taxRate: 27
-            );
+        OrderProvider.Initialize();
 
         mockOrderService
             .Setup(x => x.GetOrderItemsAsync(It.IsAny<int>(), It.IsAny<bool?>(), It.IsAny<bool?>(), It.IsAny<int>()))
-            .ReturnsAsync(new List<OrderItem> { orderItem1, orderItem2 });
+            .ReturnsAsync(OrderProvider.OrderItems);
 
-        mockProductService
-            .Setup(x => x.GetProductByIdAsync(id1))
-            .ReturnsAsync(ProductCreator.Create(id1, "product1"));
-        mockProductService
-            .Setup(x => x.GetProductByIdAsync(id2))
-            .ReturnsAsync(ProductCreator.Create(id2, "product2"));
+        foreach(var product in OrderProvider.Products)
+        {
+            mockProductService
+                .Setup(x => x.GetProductByIdAsync(product.Id))
+                .ReturnsAsync(product);
+        }
     }
 }

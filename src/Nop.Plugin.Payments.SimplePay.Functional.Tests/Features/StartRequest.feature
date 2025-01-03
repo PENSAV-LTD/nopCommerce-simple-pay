@@ -21,6 +21,11 @@ Scenario: Items array is filled with gross prices
     Then  Items array is filled with gross prices
 
 # Test tax of items are always 0
+Scenario: Tax of items are always 0
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Tax of items are always 0
+
 # Test invoice data is filled with order's invoice data
 # Test delivery information is filled with order's delivery information
 # Test if HasDetailedItems is not selected, then shippingCost is always filled

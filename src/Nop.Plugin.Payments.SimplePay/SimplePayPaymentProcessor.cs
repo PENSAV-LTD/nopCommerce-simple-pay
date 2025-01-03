@@ -2,7 +2,10 @@
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Components;
+using Nop.Plugin.Payments.SimplePay.Models.Requests;
+using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
+using Nop.Plugin.Payments.SimplePay.Transactions;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Payments;
@@ -65,10 +68,11 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         return Task.FromResult(false);
     }
 
-    public Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
+    public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
     {
         // start call
-        throw new NotImplementedException();
+        var startRequest = await _simplePayStartRequest.CreateStartRequest(postProcessPaymentRequest.Order);
+        var startResponse = await _simplePayStart.Send(startRequest);
     }
 
     public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
@@ -99,14 +103,20 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
     }
 
     private readonly SimplePaySettings _simplePaySettings;
+    private readonly SimplePayStart _simplePayStart;
+    private readonly SimplePayStartRequest _simplePayStartRequest;
 
     public SimplePayPaymentProcessor(
         SimplePaySettings simplePaySettings,
+        SimplePayStart simplePayStart,
+        SimplePayStartRequest simplePayStartRequest,
         ISettingService settingService, 
         ILocalizationService localizationService,
         IWebHelper webHelper) 
         : base(settingService, localizationService, webHelper)
     {
         _simplePaySettings = simplePaySettings;
+        _simplePayStart = simplePayStart;
+        _simplePayStartRequest = simplePayStartRequest;
     }
 }

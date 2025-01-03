@@ -21,11 +21,14 @@ public class SimplePayStartRequest
         _orderService = orderService;
         _productService = productService;
     }
-    public async Task<StartRequest> CreateStartRequest(int orderId)
+    public async Task<StartRequest> CreateStartRequest(Order order)
     {
-        var orderItems = await _orderService.GetOrderItemsAsync(orderId);
+        var orderItems = await _orderService.GetOrderItemsAsync(order.Id);
         return new StartRequest
         {
+            OrderRef = order.Id.ToString(),
+            Total = Convert.ToInt32(order.OrderTotal),
+            Currency = _settings.IsDefaultCurrencyUsed ? _settings.DefaultCurrency : order.CustomerCurrencyCode,
             Merchant = _settings.MerchantKey,
             Items = await CreateItems(orderItems)
         };

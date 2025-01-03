@@ -66,13 +66,27 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         [Given("Order is ready to pay")]
         public void GivenOrderIsReadyToPay()
         {
-            throw new PendingStepException();
         }
 
         [Then("Items array is filled with gross prices")]
         public void ThenItemsArrayIsFilledWithGrossPrices()
         {
-            throw new PendingStepException();
+            var request = _startRequestDriver.GetStartRequest();
+            var orderItems = OrderProvider.OrderItems;
+            for(var i=0; i < request.Items.Count; i++)
+            {
+                request.Items[i].Price.Should().Be(orderItems[i].PriceInclTax);
+            }
+        }
+
+        [Then("Tax of items are always {int}")]
+        public void ThenTaxOfItemsAreAlways(int p0)
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            for (var i = 0; i < request.Items.Count; i++)
+            {
+                request.Items[i].Tax.Should().Be(0);
+            }
         }
 
     }
