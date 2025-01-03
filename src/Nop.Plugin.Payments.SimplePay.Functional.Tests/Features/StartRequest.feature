@@ -2,31 +2,37 @@ Feature: Simple Pay Start request's tests
 
 Simple Pay start request call
 
-# Test configured merchant key is used in the request
+# Configured merchant key is used in the request
 Scenario: Start request call with given merchant key
     Given Merchant key is set as "PUBLICTESTHUF" 
     When  StartRequest is sent
     Then  Merchant key is "PUBLICTESTHUF" in the request
 
-# Test Signature is added to header
+# Signature is added to header
 Scenario: Signarture is added to start request call
     Given Request is about to be sent
     When StartRequest is sent
     Then Signature is added to header
 
-# Test items array is filled with gross prices
+# Items array is filled with gross prices
 Scenario: Items array is filled with gross prices
     Given Order is ready to pay
     When  StartRequest is sent
     Then  Items array is filled with gross prices
 
-# Test tax of items are always 0
+# Tax of items are always 0
 Scenario: Tax of items are always 0
     Given Order is ready to pay
     When StartRequest is sent
     Then Tax of items are always 0
 
-# Test invoice data is filled with order's invoice data
+# Invoice data is filled with order's invoice data
+Scenario: Invoice data is filled with order's invoice data
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Invoice data is filled with order's invoice data
+
+# Salt is filled
 # Test delivery information is filled with order's delivery information
 # Test if HasDetailedItems is not selected, then shippingCost is always filled
 # Test if discount's value is always 0
