@@ -86,12 +86,12 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         }
 
         [Then("Tax of items are always {int}")]
-        public void ThenTaxOfItemsAreAlways(int p0)
+        public void ThenTaxOfItemsAreAlways(int taxRate)
         {
             var request = _startRequestDriver.GetStartRequest();
             for (var i = 0; i < request.Items.Count; i++)
             {
-                request.Items[i].Tax.Should().Be(0);
+                request.Items[i].Tax.Should().Be(taxRate);
             }
         }
 
