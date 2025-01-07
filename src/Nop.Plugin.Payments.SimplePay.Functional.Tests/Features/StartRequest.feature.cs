@@ -278,6 +278,37 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Salt is filled")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Salt is filled")]
+        public async System.Threading.Tasks.Task SaltIsFilled()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Salt is filled", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 42
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 43
+    await testRunner.GivenAsync("Order is ready to pay", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 44
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 45
+    await testRunner.ThenAsync("Salt is filled", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

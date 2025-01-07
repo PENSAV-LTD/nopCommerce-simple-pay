@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
+using Nop.Plugin.Payments.SimplePay.Messages.Generators;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Transactions;
@@ -21,6 +22,7 @@ internal class NopStartup : INopStartup
 
         services.AddScoped<SimplePayStartRequest, SimplePayStartRequest>();
         services.AddScoped<SimplePayStart, SimplePayStart>();
+        services.AddScoped<ISaltGenerator, SaltGenerator>();
         services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePayUrls>(ConfigurationKey.Production);
         services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePaySandboxUrls>(ConfigurationKey.Sandbox);
     }

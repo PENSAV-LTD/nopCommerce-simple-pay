@@ -3,6 +3,7 @@ using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Exceptions;
+using Nop.Plugin.Payments.SimplePay.Messages.Generators;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Catalog;
@@ -15,6 +16,7 @@ namespace Nop.Plugin.Payments.SimplePay.Transactions;
 public class SimplePayStartRequest
 {
     private readonly SimplePaySettings _settings;
+    private readonly ISaltGenerator _saltGenerator;
     private readonly IOrderService _orderService;
     private readonly ICustomerService _customerService;
     private readonly IAddressService _addressService;
@@ -24,6 +26,7 @@ public class SimplePayStartRequest
 
     public SimplePayStartRequest(
         SimplePaySettings settings,
+        ISaltGenerator saltGenerator,
         IOrderService orderService,
         ICustomerService customerService,
         IAddressService addressService,
@@ -33,6 +36,7 @@ public class SimplePayStartRequest
         )
     {
         _settings = settings;
+        _saltGenerator = saltGenerator;
         _orderService = orderService;
         _customerService = customerService;
         _addressService = addressService;
@@ -46,6 +50,7 @@ public class SimplePayStartRequest
         var customer = await _customerService.GetCustomerByIdAsync(order.CustomerId);
         return new StartRequest
         {
+            Salt = _saltGenerator.Generate(),
             OrderRef = order.Id.ToString(),
             Total = Convert.ToInt32(order.OrderTotal),
             Currency = _settings.IsDefaultCurrencyUsed ? _settings.DefaultCurrency : order.CustomerCurrencyCode,

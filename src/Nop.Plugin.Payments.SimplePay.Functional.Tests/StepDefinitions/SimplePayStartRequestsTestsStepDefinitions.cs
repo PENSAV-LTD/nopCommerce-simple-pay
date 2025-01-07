@@ -109,6 +109,14 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
             VerifyInvoiceDataEqualToCustomerBillingData(request);
         }
 
+        [Then("Salt is filled")]
+        public void ThenSaltIsFilled()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.Salt.Should().NotBeNullOrEmpty();
+            request.Salt.Length.Should().Be(32);
+        }
+
         private static void VerifyInvoiceDataEqualToCustomerBillingData(StartRequest request)
         {
             request.Invoice.Name.Should().BeEquivalentTo(CustomerAndAddressProvider.BillingAddressFullName);

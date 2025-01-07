@@ -39,6 +39,11 @@ Scenario: Invoice data is filled with customer's data - billing address is fille
     Then Invoice data is filled with customer's billing data
 
 # Salt is filled
+Scenario: Salt is filled
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Salt is filled
+
 # Test delivery information is filled with order's delivery information
 # Test if HasDetailedItems is not selected, then shippingCost is always filled
 # Test if discount's value is always 0
