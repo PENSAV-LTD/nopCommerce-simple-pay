@@ -71,7 +71,7 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
     public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
     {
         // start call
-        var startRequest = await _simplePayStartRequest.CreateStartRequest(postProcessPaymentRequest.Order);
+        var startRequest = await _simplePayStartRequest.CreateStartRequestAsync(postProcessPaymentRequest.Order);
         var startResponse = await _simplePayStart.Send(startRequest);
     }
 

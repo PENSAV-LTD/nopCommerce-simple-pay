@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
+using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
@@ -34,10 +35,10 @@ public class StartRequestDriver
         _httpClientFactorySettings.ResponseBody = DEFAULT_JSON_RESPONSE;
     }
 
-    public void SendStartRequest(string merchantKey = "TEST")
+    public void SendStartRequest(Order order, string merchantKey = "TEST")
     {
         _simplePaySettings.MerchantKey = merchantKey;
-        var postProcessPaymentRequest = PostProcessPaymentRequestCreator.Create(OrderProvider.Order);
+        var postProcessPaymentRequest = PostProcessPaymentRequestCreator.Create(order);
         _simplePayPaymentProcessor.PostProcessPaymentAsync(postProcessPaymentRequest).GetAwaiter().GetResult();
     }
 

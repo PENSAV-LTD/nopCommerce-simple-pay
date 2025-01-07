@@ -5,7 +5,10 @@ using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 public static class OrderProvider
 {
+    public static int OrderId = 1;
+    public static int OrderWithoutBillingAddressId = 2;
     public static Order Order { get; set; }
+    public static Order OrderWithoutBillingAddress { get; set; }
     public static IList<OrderItem> OrderItems { get; set; }
     public static IList<Product> Products { get; set; }
 
@@ -34,8 +37,12 @@ public static class OrderProvider
             ProductCreator.Create(id2, "product2")
         };
 
-        Order = OrderCreator.Create();
+        Order = OrderCreator.Create(OrderId, CustomerAndAddressProvider.CustomerId);
         Order.OrderTotal = OrderItems.Sum(x => x.PriceInclTax);
         Order.OrderTax = OrderItems.Sum(x => x.PriceInclTax) - OrderItems.Sum(x => x.PriceExclTax);
+
+        OrderWithoutBillingAddress = OrderCreator.Create(OrderWithoutBillingAddressId, CustomerAndAddressProvider.CustomerWithoutBillingAddressId);
+        OrderWithoutBillingAddress.OrderTotal = OrderItems.Sum(x => x.PriceInclTax);
+        OrderWithoutBillingAddress.OrderTax = OrderItems.Sum(x => x.PriceInclTax) - OrderItems.Sum(x => x.PriceExclTax);
     }
 }

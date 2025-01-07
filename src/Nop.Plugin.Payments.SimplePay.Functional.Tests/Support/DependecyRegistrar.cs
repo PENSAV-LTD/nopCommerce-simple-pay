@@ -9,7 +9,10 @@ using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Catalog;
+using Nop.Services.Common;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
+using Nop.Services.Directory;
 using Nop.Services.Localization;
 using Nop.Services.Orders;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
@@ -47,6 +50,16 @@ internal class DependecyRegistrar
         services.AddSingleton(mockOrderService.Object);
         services.AddSingleton(mockProductService.Object);
 
+        var mockCustomerService = new Mock<ICustomerService>();
+        var mockAddressService = new Mock<IAddressService>();
+        var mockCountryService = new Mock<ICountryService>();
+        var mockStateProvinceService = new Mock<IStateProvinceService>();
+        SetupCustomerAndAddressServices(mockCustomerService, mockAddressService, mockCountryService, mockStateProvinceService);
+        services.AddSingleton(mockCustomerService.Object);
+        services.AddSingleton(mockAddressService.Object);
+        services.AddSingleton(mockCountryService.Object);
+        services.AddSingleton(mockStateProvinceService.Object);
+
         services.AddSingleton(settings);
         services.AddSingleton<HttpClientFactorySettings, HttpClientFactorySettings>();
         services.AddSingleton<IHttpClientFactory, FakeHttpClientFactory>();
@@ -55,6 +68,27 @@ internal class DependecyRegistrar
         services.AddScoped<StartRequestDriver, StartRequestDriver>();
 
         return services;
+    }
+
+    private static void SetupCustomerAndAddressServices(Mock<ICustomerService> mockCustomerService, Mock<IAddressService> mockAddressService, Mock<ICountryService> mockCountryService, Mock<IStateProvinceService> mockStateProvinceService)
+    {
+        CustomerAndAddressProvider.Initialize();
+
+        mockCustomerService
+            .Setup(x => x.GetCustomerByIdAsync(CustomerAndAddressProvider.CustomerId))
+            .ReturnsAsync(CustomerAndAddressProvider.Customer);
+        mockCustomerService
+            .Setup(x => x.GetCustomerByIdAsync(CustomerAndAddressProvider.CustomerWithoutBillingAddressId))
+            .ReturnsAsync(CustomerAndAddressProvider.CustomerWithoutBillingAddress);
+        mockAddressService
+            .Setup(x => x.GetAddressByIdAsync(CustomerAndAddressProvider.BillingAddress.Id))
+            .ReturnsAsync(CustomerAndAddressProvider.BillingAddress);
+        mockCountryService
+            .Setup(x => x.GetCountryByIdAsync(It.IsAny<int>()))
+            .ReturnsAsync(CustomerAndAddressProvider.Country);
+        mockStateProvinceService
+            .Setup(x => x.GetStateProvinceByIdAsync(It.IsAny<int>()))
+            .ReturnsAsync(CustomerAndAddressProvider.StateProvince);
     }
 
     private static void SetupNop(IServiceCollection services)

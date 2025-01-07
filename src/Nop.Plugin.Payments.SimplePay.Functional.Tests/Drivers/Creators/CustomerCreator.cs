@@ -7,7 +7,7 @@ public static class CustomerCreator
         int id = 1,
         int countryId = 1,
         int stateProvinceId = 1,
-        int billingAddressId = 1,
+        int? billingAddressId = null,
         string email = null,
         string firstName = null,
         string lastName = null,

@@ -3,13 +3,13 @@
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
 public static class OrderCreator
 {
-    public static Order Create()
+    public static Order Create(int id = 1, int customerId = 1)
     {
         return new Order
         {
-            Id = 1,
+            Id = id,
             OrderGuid = Guid.NewGuid(),
-            CustomerId = 1,
+            CustomerId = customerId,
         };
     }
 }

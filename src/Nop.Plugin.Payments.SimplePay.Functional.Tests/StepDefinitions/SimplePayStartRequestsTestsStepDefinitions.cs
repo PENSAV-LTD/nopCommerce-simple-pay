@@ -36,12 +36,18 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         {
             if (string.IsNullOrEmpty(_merchantKey))
             {
-                _startRequestDriver.SendStartRequest();
+                _startRequestDriver.SendStartRequest(OrderProvider.Order);
             }
             else
             {
-                _startRequestDriver.SendStartRequest(_merchantKey);
+                _startRequestDriver.SendStartRequest(OrderProvider.Order, _merchantKey);
             }
+        }
+
+        [When("StartRequest is sent with a customer without billing address")]
+        public void WhenStartRequestIsSentWithACustomerWithoutBillingAddress()
+        {
+            _startRequestDriver.SendStartRequest(OrderProvider.OrderWithoutBillingAddress);
         }
 
         [Then("Merchant key is {string} in the request")]
@@ -89,5 +95,44 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
             }
         }
 
+        [Then("Invoice data is filled with customer's data")]
+        public void ThenInvoiceDataIsFilledWithCustomersData()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            VerifyInvoiceDataEqualToCustomerData(request);
+        }
+
+        [Then("Invoice data is filled with customer's billing data")]
+        public void ThenInvoiceDataIsFilledWithCustomersBillingData()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            VerifyInvoiceDataEqualToCustomerBillingData(request);
+        }
+
+        private static void VerifyInvoiceDataEqualToCustomerBillingData(StartRequest request)
+        {
+            request.Invoice.Name.Should().BeEquivalentTo(CustomerAndAddressProvider.BillingAddressFullName);
+            request.Invoice.Company.Should().Be(CustomerAndAddressProvider.BillingAddress.Company);
+            request.Invoice.Phone.Should().Be(CustomerAndAddressProvider.BillingAddress.PhoneNumber);
+            request.Invoice.Country.Should().Be(CustomerAndAddressProvider.Country.TwoLetterIsoCode);
+            request.Invoice.State.Should().Be(CustomerAndAddressProvider.StateProvince.Name);
+            request.Invoice.City.Should().Be(CustomerAndAddressProvider.BillingAddress.City);
+            request.Invoice.Address.Should().Be(CustomerAndAddressProvider.BillingAddress.Address1);
+            request.Invoice.Address2.Should().Be(CustomerAndAddressProvider.BillingAddress.Address2);
+            request.Invoice.Zip.Should().Be(CustomerAndAddressProvider.BillingAddress.ZipPostalCode);
+        }
+
+        private static void VerifyInvoiceDataEqualToCustomerData(StartRequest request)
+        {
+            request.Invoice.Name.Should().BeEquivalentTo(CustomerAndAddressProvider.CustomerFullName);
+            request.Invoice.Company.Should().Be(CustomerAndAddressProvider.Customer.Company);
+            request.Invoice.Phone.Should().Be(CustomerAndAddressProvider.Customer.Phone);
+            request.Invoice.Country.Should().Be(CustomerAndAddressProvider.Country.TwoLetterIsoCode);
+            request.Invoice.State.Should().Be(CustomerAndAddressProvider.StateProvince.Name);
+            request.Invoice.City.Should().Be(CustomerAndAddressProvider.Customer.City);
+            request.Invoice.Address.Should().Be(CustomerAndAddressProvider.Customer.StreetAddress);
+            request.Invoice.Address2.Should().Be(CustomerAndAddressProvider.Customer.StreetAddress2);
+            request.Invoice.Zip.Should().Be(CustomerAndAddressProvider.Customer.ZipPostalCode);
+        }
     }
 }

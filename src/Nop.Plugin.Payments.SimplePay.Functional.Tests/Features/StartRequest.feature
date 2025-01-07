@@ -26,11 +26,17 @@ Scenario: Tax of items are always 0
     When StartRequest is sent
     Then Tax of items are always 0
 
-# Invoice data is filled with order's invoice data
-Scenario: Invoice data is filled with order's invoice data
+# Invoice data is filled with customer's data - billing address isn't filled
+Scenario: Invoice data is filled with customer's data - billing address isn't filled
+    Given Order is ready to pay
+    When StartRequest is sent with a customer without billing address
+    Then Invoice data is filled with customer's data
+
+# Invoice data is filled with customer's data - billing address is filled
+Scenario: Invoice data is filled with customer's data - billing address is filled
     Given Order is ready to pay
     When StartRequest is sent
-    Then Invoice data is filled with order's invoice data
+    Then Invoice data is filled with customer's billing data
 
 # Salt is filled
 # Test delivery information is filled with order's delivery information
