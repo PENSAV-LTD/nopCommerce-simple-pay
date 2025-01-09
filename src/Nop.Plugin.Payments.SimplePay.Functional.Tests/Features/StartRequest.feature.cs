@@ -309,6 +309,68 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Shipping cost is always filled")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Shipping cost is always filled")]
+        public async System.Threading.Tasks.Task ShippingCostIsAlwaysFilled()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipping cost is always filled", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 49
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 50
+    await testRunner.GivenAsync("Order is ready to pay", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 51
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 52
+    await testRunner.ThenAsync("Shipping cost is filled", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Discount\'s value is filled")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Discount\'s value is filled")]
+        public async System.Threading.Tasks.Task DiscountsValueIsFilled()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Discount\'s value is filled", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 55
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 56
+    await testRunner.GivenAsync("Order is ready to pay", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 57
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 58
+    await testRunner.ThenAsync("Discount\'s value is filled", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

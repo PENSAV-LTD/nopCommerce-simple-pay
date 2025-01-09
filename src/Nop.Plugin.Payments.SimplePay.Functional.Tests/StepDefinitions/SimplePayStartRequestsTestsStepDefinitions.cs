@@ -117,6 +117,26 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
             request.Salt.Length.Should().Be(32);
         }
 
+        [Then("Shipping cost is filled")]
+        public void ThenShippingCostIsFilled()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.ShippingCost.Should().Be(Convert.ToInt32(OrderProvider.Order.OrderShippingInclTax));
+        }
+
+        [Then("Discount value is filled with order discount value")]
+        public void ThenDiscountsValueIsFilledWithOrderDiscountValue()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.Discount.Should().Be(Convert.ToInt32(OrderProvider.Order.OrderDiscount));
+        }
+
+        [Then("Urls field are always filled with the proper urls")]
+        public void ThenUrlsFieldAreAlwaysFilledWithTheProperUrls()
+        {
+            throw new PendingStepException();
+        }
+
         private static void VerifyInvoiceDataEqualToCustomerBillingData(StartRequest request)
         {
             request.Invoice.Name.Should().BeEquivalentTo(CustomerAndAddressProvider.BillingAddressFullName);

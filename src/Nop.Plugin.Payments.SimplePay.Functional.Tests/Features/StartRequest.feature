@@ -45,9 +45,24 @@ Scenario: Salt is filled
     Then Salt is filled
 
 # Test delivery information is filled with order's delivery information
-# Test if HasDetailedItems is not selected, then shippingCost is always filled
-# Test if discount's value is always 0
+# ShippingCost is always filled
+Scenario: Shipping cost is always filled
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Shipping cost is filled
+
+# Discount's value is filled with order's discount value
+Scenario: Discount value is filled with order discount value
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Discount value is filled with order discount value
+
 # Test urls field are always filled with the proper urls
+Scenario: Urls field are always filled with the proper urls
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Urls field are always filled with the proper urls
+
 # Test if IsDefaultCurrencyUsed is selected, default currency used instead of order's currency
 # Test if IsDefaultCurrencyUsed is not selected, order's currency used instead of default currency
 # Test DefaultPaymentMethods is filled in the request

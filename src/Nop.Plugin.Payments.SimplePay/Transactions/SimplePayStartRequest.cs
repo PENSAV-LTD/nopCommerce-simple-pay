@@ -1,4 +1,6 @@
-﻿using Nop.Core.Domain.Common;
+﻿using Microsoft.AspNetCore.Mvc;
+using Nop.Core;
+using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Orders;
@@ -23,6 +25,7 @@ public class SimplePayStartRequest
     private readonly ICountryService _countryService;
     private readonly IStateProvinceService _stateProvinceService;
     private readonly IProductService _productService;
+    private readonly IUrlHelper _urlHelper;
 
     public SimplePayStartRequest(
         SimplePaySettings settings,
@@ -32,7 +35,8 @@ public class SimplePayStartRequest
         IAddressService addressService,
         ICountryService countryService,
         IStateProvinceService stateProvinceService,
-        IProductService productService
+        IProductService productService,
+        IUrlHelper urlHelper
         )
     {
         _settings = settings;
@@ -43,6 +47,7 @@ public class SimplePayStartRequest
         _countryService = countryService;
         _stateProvinceService = stateProvinceService;
         _productService = productService;
+        _urlHelper = urlHelper;
     }
     public async Task<StartRequest> CreateStartRequestAsync(Order order)
     {
@@ -55,9 +60,18 @@ public class SimplePayStartRequest
             Total = Convert.ToInt32(order.OrderTotal),
             Currency = _settings.IsDefaultCurrencyUsed ? _settings.DefaultCurrency : order.CustomerCurrencyCode,
             Merchant = _settings.MerchantKey,
+            ShippingCost = Convert.ToInt32(order.OrderShippingInclTax),
+            Discount = Convert.ToInt32(order.OrderDiscount),
             Items = await CreateItems(orderItems),
             CustomerEmail = customer.Email,
             Invoice = await CreateInvoiceAsync(customer),
+            Urls = new Urls
+            {
+                Success = _urlHelper.Action("Success", "SimplePayCallback"),
+                Fail = _urlHelper.Action("Fail", "SimplePayCallback"),
+                Cancel = _urlHelper.Action("Cancel", "SimplePayCallback"),
+                Timeout = _urlHelper.Action("Timeout", "SimplePayCallback"),
+            },
         };
     }
 
