@@ -11,6 +11,7 @@ public static class OrderProvider
     public static Order OrderWithoutBillingAddress { get; set; }
     public static IList<OrderItem> OrderItems { get; set; }
     public static IList<Product> Products { get; set; }
+    public static string CustomerCurrencyCode { get; set; } = "EUR";
 
     public static void Initialize()
     {
@@ -40,6 +41,7 @@ public static class OrderProvider
         Order = OrderCreator.Create(OrderId, CustomerAndAddressProvider.CustomerId);
         Order.OrderTotal = OrderItems.Sum(x => x.PriceInclTax);
         Order.OrderTax = OrderItems.Sum(x => x.PriceInclTax) - OrderItems.Sum(x => x.PriceExclTax);
+        Order.CustomerCurrencyCode = CustomerCurrencyCode;
 
         OrderWithoutBillingAddress = OrderCreator.Create(OrderWithoutBillingAddressId, CustomerAndAddressProvider.CustomerWithoutBillingAddressId);
         OrderWithoutBillingAddress.OrderTotal = OrderItems.Sum(x => x.PriceInclTax);

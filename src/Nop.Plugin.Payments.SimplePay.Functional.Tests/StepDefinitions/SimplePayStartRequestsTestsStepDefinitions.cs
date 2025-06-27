@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using System.Text.Json;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
+using Nop.Plugin.Payments.SimplePay.Models;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
@@ -134,7 +135,12 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         [Then("Urls field are always filled with the proper urls")]
         public void ThenUrlsFieldAreAlwaysFilledWithTheProperUrls()
         {
-            throw new PendingStepException();
+            var request = _startRequestDriver.GetStartRequest();
+            request.Urls.Should().NotBeNull();
+            request.Urls.Success.Should().Be("http://localhost/simplepaycallback/success");
+            request.Urls.Fail.Should().Be("http://localhost/simplepaycallback/fail");
+            request.Urls.Cancel.Should().Be("http://localhost/simplepaycallback/cancel");
+            request.Urls.Timeout.Should().Be("http://localhost/simplepaycallback/timeout");
         }
 
         private static void VerifyInvoiceDataEqualToCustomerBillingData(StartRequest request)
@@ -162,5 +168,67 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
             request.Invoice.Address2.Should().Be(CustomerAndAddressProvider.Customer.StreetAddress2);
             request.Invoice.Zip.Should().Be(CustomerAndAddressProvider.Customer.ZipPostalCode);
         }
+
+        [Given("Order is ready to pay with default currency")]
+        public void GivenOrderIsReadyToPayWithDefaultCurrency()
+        {
+            DependecyRegistrar.SimplePaySettings.IsDefaultCurrencyUsed = true;
+            DependecyRegistrar.SimplePaySettings.DefaultCurrency = "HUF";
+        }
+
+        [Then("Default currency is used in the request")]
+        public void ThenDefaultCurrencyIsUsedInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.Currency.Should().Be(DependecyRegistrar.SimplePaySettings.DefaultCurrency);
+        }
+
+        [Given("Order is ready to pay with order's currency")]
+        public void GivenOrderIsReadyToPayWithOrdersCurrency()
+        {
+            DependecyRegistrar.SimplePaySettings.IsDefaultCurrencyUsed = false;
+        }
+
+        [Then("Order's currency is used in the request")]
+        public void ThenOrdersCurrencyIsUsedInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.Currency.Should().Be(OrderProvider.CustomerCurrencyCode);
+        }
+
+        [Then("Default payment methods are filled in the request")]
+        public void ThenDefaultPaymentMethodsAreFilledInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.Methods.Should().NotBeNull();
+            request.Methods.Contains("CARD").Should().BeTrue();
+        }
+
+        [Given("Order is ready to pay with two step payment")]
+        public void GivenOrderIsReadyToPayWithTwoStepPayment()
+        {
+            DependecyRegistrar.SimplePaySettings.IsTwoStep = true;
+        }
+
+        [Then("TwoStep is true in the request")]
+        public void ThenTwoStepIsTrueInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.TwoStep.Should().BeTrue();
+        }
+
+        [Given("Order is ready to pay with no two step payment")]
+        public void GivenOrderIsReadyToPayWithNoTwoStepPayment()
+        {
+            DependecyRegistrar.SimplePaySettings.IsTwoStep = false;
+        }
+
+        [Then("TwoStep is false in the request")]
+        public void ThenTwoStepIsFalseInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.TwoStep.Should().BeFalse();
+        }
+
     }
 }

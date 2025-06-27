@@ -1,11 +1,17 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Moq;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
+using Nop.Plugin.Payments.SimplePay.Models;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Catalog;
@@ -20,6 +26,12 @@ using Reqnroll.Microsoft.Extensions.DependencyInjection;
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 internal class DependecyRegistrar
 {
+    public static SimplePaySettings SimplePaySettings { get; set; } = new SimplePaySettings
+    {
+        MerchantKey = "merchantkey",
+        DefaultPaymentMethods = PaymentMethods.Card,
+    };
+
     [ScenarioDependencies]
     public static IServiceCollection CreateServices()
     {
@@ -40,10 +52,6 @@ internal class DependecyRegistrar
         SetupNop(services);
         new Nop.Plugin.Payments.SimplePay.Infrastructure.NopStartup().ConfigureServices(services, configuration);
 
-        var settings = new SimplePaySettings
-        {
-            MerchantKey = "merchantkey"
-        };
         var mockOrderService = new Mock<IOrderService>();
         var mockProductService = new Mock<IProductService>();
         SetupOrderService(mockOrderService, mockProductService);
@@ -60,9 +68,13 @@ internal class DependecyRegistrar
         services.AddSingleton(mockCountryService.Object);
         services.AddSingleton(mockStateProvinceService.Object);
 
-        services.AddSingleton(settings);
+        var mockUrlHelper = new Mock<IUrlHelper>();
+        SetupUrlHelper(mockUrlHelper);
+
+        services.AddSingleton(SimplePaySettings);
         services.AddSingleton<HttpClientFactorySettings, HttpClientFactorySettings>();
         services.AddSingleton<IHttpClientFactory, FakeHttpClientFactory>();
+        services.AddSingleton<IUrlHelper>(mockUrlHelper.Object);
         services.AddScoped<ISimplePayUrlsProvider, SimplePayTestUrls>();
         services.AddSingleton<SimplePayPaymentProcessor, SimplePayPaymentProcessor>();
         services.AddScoped<StartRequestDriver, StartRequestDriver>();
@@ -115,5 +127,33 @@ internal class DependecyRegistrar
                 .Setup(x => x.GetProductByIdAsync(product.Id))
                 .ReturnsAsync(product);
         }
+    }
+
+    private static void SetupUrlHelper(Mock<IUrlHelper> mockUrlHelper)
+    {
+        mockUrlHelper
+            .Setup(x => x.Action(It.Is<UrlActionContext>(c =>
+                c.Action == "Success" &&
+                c.Controller == "SimplePayCallback"
+            )))
+            .Returns("http://localhost/simplepaycallback/success");
+        mockUrlHelper
+            .Setup(x => x.Action(It.Is<UrlActionContext>(c =>
+                c.Action == "Fail" &&
+                c.Controller == "SimplePayCallback"
+            )))
+            .Returns("http://localhost/simplepaycallback/fail");
+        mockUrlHelper
+            .Setup(x => x.Action(It.Is<UrlActionContext>(c =>
+                c.Action == "Cancel" &&
+                c.Controller == "SimplePayCallback"
+            )))
+            .Returns("http://localhost/simplepaycallback/cancel");
+        mockUrlHelper
+            .Setup(x => x.Action(It.Is<UrlActionContext>(c =>
+                c.Action == "Timeout" &&
+                c.Controller == "SimplePayCallback"
+            )))
+            .Returns("http://localhost/simplepaycallback/timeout");
     }
 }

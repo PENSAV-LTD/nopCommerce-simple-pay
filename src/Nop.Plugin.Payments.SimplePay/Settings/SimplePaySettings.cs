@@ -1,12 +1,13 @@
 ﻿using System.Net;
 using Nop.Core.Configuration;
+using Nop.Plugin.Payments.SimplePay.Models;
 
 namespace Nop.Plugin.Payments.SimplePay.Settings;
 public class SimplePaySettings : ISettings
 {
     public string MerchantKey { get;set; }
     public string DefaultCurrency { get; set; }
-    public string DefaultPaymentMethods { get; set; }
+    public PaymentMethods DefaultPaymentMethods { get; set; }
     public bool IsDefaultCurrencyUsed { get; set; }
 
     public bool IsTwoStep { get; set; }

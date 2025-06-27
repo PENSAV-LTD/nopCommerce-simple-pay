@@ -19,7 +19,7 @@ Scenario: Items array is filled with gross prices
     Given Order is ready to pay
     When  StartRequest is sent
     Then  Items array is filled with gross prices
-
+    
 # Tax of items are always 0
 Scenario: Tax of items are always 0
     Given Order is ready to pay
@@ -64,10 +64,35 @@ Scenario: Urls field are always filled with the proper urls
     Then Urls field are always filled with the proper urls
 
 # Test if IsDefaultCurrencyUsed is selected, default currency used instead of order's currency
-# Test if IsDefaultCurrencyUsed is not selected, order's currency used instead of default currency
+Scenario: Default currency is used if IsDefaultCurrencyUsed is selected
+    Given Order is ready to pay with default currency
+    When StartRequest is sent
+    Then Default currency is used in the request
+
+# Test if IsDefaultCurrencyUsed is not selected, order's currency used instead of default currency  
+Scenario: Order's currency is used if IsDefaultCurrencyUsed is not selected
+    Given Order is ready to pay with order's currency
+    When StartRequest is sent
+    Then Order's currency is used in the request
+
 # Test DefaultPaymentMethods is filled in the request
+Scenario: Default payment methods are filled in the request
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Default payment methods are filled in the request
+
 # Test if IsTwoStep is selected, value of the twoStep is true
+Scenario: TwoStep is true if IsTwoStep is selected
+    Given Order is ready to pay with two step payment
+    When StartRequest is sent
+    Then TwoStep is true in the request
+
 # Test if IsTwoStep is not selected, value of the twoStep is false
+Scenario: TwoStep is false if IsTwoStep is not selected
+    Given Order is ready to pay with no two step payment
+    When StartRequest is sent
+    Then TwoStep is false in the request
+
 # Test SdkVersion is filled in the request
 # Test if UseSandbox selected, simplepay sandbox url is used
 # Test if AddExtraPercentage is not 0, then add given percentage to order total

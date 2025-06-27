@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Nop.Core;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
@@ -6,6 +7,7 @@ using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Exceptions;
 using Nop.Plugin.Payments.SimplePay.Messages.Generators;
+using Nop.Plugin.Payments.SimplePay.Models;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Catalog;
@@ -65,6 +67,8 @@ public class SimplePayStartRequest
             Items = await CreateItems(orderItems),
             CustomerEmail = customer.Email,
             Invoice = await CreateInvoiceAsync(customer),
+            Methods = [ _settings.DefaultPaymentMethods.GetDescription() ],
+            TwoStep = _settings.IsTwoStep,
             Urls = new Urls
             {
                 Success = _urlHelper.Action("Success", "SimplePayCallback"),
