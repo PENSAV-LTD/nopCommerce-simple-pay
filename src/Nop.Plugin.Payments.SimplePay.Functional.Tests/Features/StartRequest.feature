@@ -94,9 +94,35 @@ Scenario: TwoStep is false if IsTwoStep is not selected
     Then TwoStep is false in the request
 
 # Test SdkVersion is filled in the request
-# Test if UseSandbox selected, simplepay sandbox url is used
+Scenario: SdkVersion is filled in the request
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then SdkVersion is filled in the request
+
 # Test if AddExtraPercentage is not 0, then add given percentage to order total
+Scenario: AddExtraPercentage is added to order total if not 0
+    Given Order is ready to pay with extra percentage
+    When StartRequest is sent
+    Then AddExtraPercentage is added to order total in the request
+
 # Test if AddExtra is not 0, then add given extra to order total
+Scenario: AddExtra is added to order total if not 0
+    Given Order is ready to pay with extra amount
+    When StartRequest is sent
+    Then AddExtra is added to order total in the request
+
+# Test if UseSandbox is selected, simplepay sandbox url is used
+Scenario: UseSandbox is selected, sandbox url is used
+    Given Order is ready to pay with sandbox mode
+    When StartRequest is sent
+    Then Sandbox url is used in the request
+
+# Test if UseSandbox is not selected, simplepay production url is used
+Scenario: UseSandbox is not selected, production url is used
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Production url is used in the request
+
 # Test if HasDetailedItems is selected, then items array are filled all the items in the request
 # Test if HasDetailedItems is not selected, then only one item in the items array.
 # 

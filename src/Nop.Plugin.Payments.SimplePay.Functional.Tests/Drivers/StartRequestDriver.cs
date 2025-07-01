@@ -14,24 +14,20 @@ public class StartRequestDriver
     public const string DEFAULT_JSON_RESPONSE = "{\"salt\":\"KAC6ZRUacmQit98nFKOpjXgkwdC0Grzl\",\"merchant\":\"PUBLICTESTHUF\",\"orderRef\":\"101010515680292482600\",\"currency\":\"HUF\",\"transactionId\":99844942,\"timeout\":\"2019-09-11T21:14:08+02:00\",\"total\":25.0,\"paymentUrl\":\"https://sandbox.simplepay.hu/pay/pay/pspHU/8f4oKRec5R1B696xlxbOcj1jRhhABA2pwSLQDPW60zoGSDWzDU\"}";
     private readonly SimplePayPaymentProcessor _simplePayPaymentProcessor;
     private readonly SimplePaySettings _simplePaySettings;
-    private readonly ISimplePayUrlsProvider _simplePayTestUrls;
     private readonly HttpClientFactorySettings _httpClientFactorySettings;
     private readonly FakeHttpClientFactory _fakeHttpClientFactory;
 
     public StartRequestDriver(
             SimplePayPaymentProcessor simplePayPaymentProcessor,
             SimplePaySettings simplePaySettings,
-            ISimplePayUrlsProvider simplePayTestUrls,
             HttpClientFactorySettings httpClientFactorySettings,
             IHttpClientFactory fakeHttpClientFactory
         )
     {
         _simplePayPaymentProcessor = simplePayPaymentProcessor;
         _simplePaySettings = simplePaySettings;
-        _simplePayTestUrls = simplePayTestUrls;
         _httpClientFactorySettings = httpClientFactorySettings;
         _fakeHttpClientFactory = fakeHttpClientFactory as FakeHttpClientFactory;
-        _httpClientFactorySettings.Url = _simplePayTestUrls.StartUrl;
         _httpClientFactorySettings.ResponseBody = DEFAULT_JSON_RESPONSE;
     }
 

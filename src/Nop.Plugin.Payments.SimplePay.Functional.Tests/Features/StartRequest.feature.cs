@@ -557,6 +557,161 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="SdkVersion is filled in the request")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "SdkVersion is filled in the request")]
+        public async System.Threading.Tasks.Task SdkVersionIsFilledInTheRequest()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("SdkVersion is filled in the request", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 97
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 98
+    await testRunner.GivenAsync("Order is ready to pay", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 99
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 100
+    await testRunner.ThenAsync("SdkVersion is filled in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="AddExtraPercentage is added to order total if not 0")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "AddExtraPercentage is added to order total if not 0")]
+        public async System.Threading.Tasks.Task AddExtraPercentageIsAddedToOrderTotalIfNot0()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AddExtraPercentage is added to order total if not 0", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 103
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 104
+    await testRunner.GivenAsync("Order is ready to pay with extra percentage", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 105
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 106
+    await testRunner.ThenAsync("AddExtraPercentage is added to order total in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="AddExtra is added to order total if not 0")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "AddExtra is added to order total if not 0")]
+        public async System.Threading.Tasks.Task AddExtraIsAddedToOrderTotalIfNot0()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AddExtra is added to order total if not 0", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 109
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 110
+    await testRunner.GivenAsync("Order is ready to pay with extra amount", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 111
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 112
+    await testRunner.ThenAsync("AddExtra is added to order total in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="UseSandbox is selected, sandbox url is used")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "UseSandbox is selected, sandbox url is used")]
+        public async System.Threading.Tasks.Task UseSandboxIsSelectedSandboxUrlIsUsed()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("UseSandbox is selected, sandbox url is used", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 115
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 116
+    await testRunner.GivenAsync("Order is ready to pay with sandbox mode", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 117
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 118
+    await testRunner.ThenAsync("Sandbox url is used in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="UseSandbox is not selected, production url is used")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "UseSandbox is not selected, production url is used")]
+        public async System.Threading.Tasks.Task UseSandboxIsNotSelectedProductionUrlIsUsed()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("UseSandbox is not selected, production url is used", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 121
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 122
+    await testRunner.GivenAsync("Order is ready to pay", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 123
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 124
+    await testRunner.ThenAsync("Production url is used in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

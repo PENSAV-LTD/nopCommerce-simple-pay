@@ -55,11 +55,21 @@ public class SimplePayStartRequest
     {
         var orderItems = await _orderService.GetOrderItemsAsync(order.Id);
         var customer = await _customerService.GetCustomerByIdAsync(order.CustomerId);
+        var orderTotal = order.OrderTotal;
+        if (_settings.AddExtraPercentageToOrderTotal > 0)
+        {
+            orderTotal *= (1 + _settings.AddExtraPercentageToOrderTotal / 100);
+        }
+        else if (_settings.AddExtraToOrderTotal > 0)
+        {
+            orderTotal += _settings.AddExtraToOrderTotal;
+        }
+
         return new StartRequest
         {
             Salt = _saltGenerator.Generate(),
             OrderRef = order.Id.ToString(),
-            Total = Convert.ToInt32(order.OrderTotal),
+            Total = Convert.ToInt32(orderTotal),
             Currency = _settings.IsDefaultCurrencyUsed ? _settings.DefaultCurrency : order.CustomerCurrencyCode,
             Merchant = _settings.MerchantKey,
             ShippingCost = Convert.ToInt32(order.OrderShippingInclTax),
@@ -69,6 +79,7 @@ public class SimplePayStartRequest
             Invoice = await CreateInvoiceAsync(customer),
             Methods = [ _settings.DefaultPaymentMethods.GetDescription() ],
             TwoStep = _settings.IsTwoStep,
+            SdkVersion = _settings.SdkVersion,
             Urls = new Urls
             {
                 Success = _urlHelper.Action("Success", "SimplePayCallback"),

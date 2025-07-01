@@ -29,7 +29,6 @@ internal class DependecyRegistrar
     public static SimplePaySettings SimplePaySettings { get; set; } = new SimplePaySettings
     {
         MerchantKey = "merchantkey",
-        DefaultPaymentMethods = PaymentMethods.Card,
     };
 
     [ScenarioDependencies]
@@ -75,7 +74,8 @@ internal class DependecyRegistrar
         services.AddSingleton<HttpClientFactorySettings, HttpClientFactorySettings>();
         services.AddSingleton<IHttpClientFactory, FakeHttpClientFactory>();
         services.AddSingleton<IUrlHelper>(mockUrlHelper.Object);
-        services.AddScoped<ISimplePayUrlsProvider, SimplePayTestUrls>();
+        services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePaySandboxUrls>("SANDBOX");
+        services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePayUrls>("PRODUCTION");
         services.AddSingleton<SimplePayPaymentProcessor, SimplePayPaymentProcessor>();
         services.AddScoped<StartRequestDriver, StartRequestDriver>();
 

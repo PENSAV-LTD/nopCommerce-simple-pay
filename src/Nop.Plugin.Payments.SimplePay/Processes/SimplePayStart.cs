@@ -3,33 +3,42 @@ using System.Text.Json;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Models.Responses;
+using Nop.Plugin.Payments.SimplePay.Settings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Nop.Plugin.Payments.SimplePay.Processes;
 public class SimplePayStart
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly ISimplePayUrlsProvider _simplePayUrls;
+    private readonly ISimplePayUrlsProvider _sandboxUrlProvider;
+    private readonly ISimplePayUrlsProvider _productionUrlProvider;
     private readonly IMessageToSendValidator _messageToSendValidator;
+    private readonly SimplePaySettings _simplePaySettings;
 
     public SimplePayStart(
         IHttpClientFactory httpClientFactory,
-        ISimplePayUrlsProvider simplePayUrls,
-        IMessageToSendValidator messageToSendValidator
+        [FromKeyedServices("SANDBOX")] ISimplePayUrlsProvider sandboxUrlProvider,
+        [FromKeyedServices("PRODUCTION")] ISimplePayUrlsProvider productionUrlProvider,
+        IMessageToSendValidator messageToSendValidator,
+        SimplePaySettings simplePaySettings
         )
     {
         _httpClientFactory = httpClientFactory;
-        _simplePayUrls = simplePayUrls;
+        _sandboxUrlProvider = sandboxUrlProvider;
+        _productionUrlProvider = productionUrlProvider;
         _messageToSendValidator = messageToSendValidator;
+        _simplePaySettings = simplePaySettings;
     }
 
     public async Task<StartResponse> Send(StartRequest request)
     {
+        var simplePayUrlProvider = GetSimplePayUrlProvider();
         string message = JsonSerializer.Serialize(request);
         using StringContent content = new(message, Encoding.UTF8, "application/json");
         content.Headers.Add("Signature", _messageToSendValidator.CalculateSignature(request.Merchant, message));
 
         var client = _httpClientFactory.CreateClient();
-        using HttpResponseMessage response = await client.PostAsync(_simplePayUrls.StartUrl, content);
+        using HttpResponseMessage response = await client.PostAsync(simplePayUrlProvider.StartUrl, content);
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception("SimplePay start request failed.");
@@ -37,5 +46,12 @@ public class SimplePayStart
 
         var responseContent = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<StartResponse>(responseContent);
+    }
+
+    private ISimplePayUrlsProvider GetSimplePayUrlProvider()
+    {
+        return _simplePaySettings.UseSandbox ? 
+            _sandboxUrlProvider :
+            _productionUrlProvider;
     }
 }

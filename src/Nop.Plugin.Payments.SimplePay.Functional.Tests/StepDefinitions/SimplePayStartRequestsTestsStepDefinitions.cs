@@ -17,14 +17,17 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
     {
 
         public SimplePayStartRequestsTestsStepDefinitions(
-            StartRequestDriver startRequestDriver
+            StartRequestDriver startRequestDriver,
+            IHttpClientFactory httpClientFactory
             )
         {
             _startRequestDriver = startRequestDriver;
+            _httpClientFactory = httpClientFactory as FakeHttpClientFactory;
         }
 
         private string _merchantKey;
         private readonly StartRequestDriver _startRequestDriver;
+        private readonly FakeHttpClientFactory _httpClientFactory;
 
         [Given("Merchant key is set as {string}")]
         public void GivenMerchantKeyIsSetAs(string merchantKey)
@@ -228,6 +231,61 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         {
             var request = _startRequestDriver.GetStartRequest();
             request.TwoStep.Should().BeFalse();
+        }
+
+        [Then("SdkVersion is filled in the request")]
+        public void ThenSdkVersionIsFilledInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.SdkVersion.Should().Be(SimplePaySettings.SDK_VERSION);
+        }
+
+        [Given("Order is ready to pay with extra percentage")]
+        public void GivenOrderIsReadyToPayWithExtraPercentage()
+        {
+            DependecyRegistrar.SimplePaySettings.AddExtraPercentageToOrderTotal = 15;
+        }
+
+        [Then("AddExtraPercentage is added to order total in the request")]
+        public void ThenAddExtraPercentageIsAddedToOrderTotalInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            var orderTotal = OrderProvider.Order.OrderTotal * (1 + DependecyRegistrar.SimplePaySettings.AddExtraPercentageToOrderTotal/100);
+            request.Total.Should().Be(Convert.ToInt32(orderTotal));
+        }
+
+        [Given("Order is ready to pay with extra amount")]
+        public void GivenOrderIsReadyToPayWithExtraAmount()
+        {
+            DependecyRegistrar.SimplePaySettings.AddExtraToOrderTotal = 1000;
+        }
+
+        [Then("AddExtra is added to order total in the request")]
+        public void ThenAddExtraIsAddedToOrderTotalInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            var orderTotal = OrderProvider.Order.OrderTotal + DependecyRegistrar.SimplePaySettings.AddExtraToOrderTotal;
+            request.Total.Should().Be(Convert.ToInt32(orderTotal));
+        }
+
+        [Given("Order is ready to pay with sandbox mode")]
+        public void GivenOrderIsReadyToPayWithSandboxMode()
+        {
+            DependecyRegistrar.SimplePaySettings.UseSandbox = true;
+        }
+
+        [Then("Sandbox url is used in the request")]
+        public void ThenSandboxUrlIsUsedInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            _httpClientFactory.Url.AbsoluteUri.Should().Be(SimplePaySandboxUrls.START_URL);
+        }
+
+        [Then("Production url is used in the request")]
+        public void ThenProductionUrlIsUsedInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            _httpClientFactory.Url.AbsoluteUri.Should().Be(SimplePayUrls.START_URL);
         }
 
     }
