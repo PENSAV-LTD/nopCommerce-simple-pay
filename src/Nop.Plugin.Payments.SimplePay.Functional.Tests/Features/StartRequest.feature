@@ -124,7 +124,17 @@ Scenario: UseSandbox is not selected, production url is used
     Then Production url is used in the request
 
 # Test if HasDetailedItems is selected, then items array are filled all the items in the request
+Scenario: HasDetailedItems is selected, items array are filled with all items
+    Given Order is ready to pay
+    When StartRequest is sent
+    Then Items array are filled with all items in the request
+
 # Test if HasDetailedItems is not selected, then only one item in the items array.
+Scenario: HasDetailedItems is not selected, items array is filled with one item
+    Given Order is ready to pay without detailed items
+    When StartRequest is sent
+    Then Items array is filled with one item in the request
+
 # 
 # Example
 # {

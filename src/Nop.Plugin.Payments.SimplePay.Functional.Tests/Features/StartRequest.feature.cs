@@ -712,6 +712,68 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="HasDetailedItems is selected, items array are filled with all items")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "HasDetailedItems is selected, items array are filled with all items")]
+        public async System.Threading.Tasks.Task HasDetailedItemsIsSelectedItemsArrayAreFilledWithAllItems()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("HasDetailedItems is selected, items array are filled with all items", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 127
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 128
+    await testRunner.GivenAsync("Order is ready to pay", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 129
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 130
+    await testRunner.ThenAsync("Items array are filled with all items in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="HasDetailedItems is not selected, items array is filled with one item")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Start request\'s tests")]
+        [Xunit.TraitAttribute("Description", "HasDetailedItems is not selected, items array is filled with one item")]
+        public async System.Threading.Tasks.Task HasDetailedItemsIsNotSelectedItemsArrayIsFilledWithOneItem()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("HasDetailedItems is not selected, items array is filled with one item", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 133
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 134
+    await testRunner.GivenAsync("Order is ready to pay without detailed items", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 135
+    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 136
+    await testRunner.ThenAsync("Items array is filled with one item in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

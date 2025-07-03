@@ -1,14 +1,8 @@
-﻿using System;
-using System.Net.WebSockets;
-using System.Text.Json;
-using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
+﻿using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
-using Nop.Plugin.Payments.SimplePay.Models;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
-using Nop.Plugin.Payments.SimplePay.Transactions;
-using Reqnroll;
 
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
 {
@@ -76,6 +70,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         [Given("Order is ready to pay")]
         public void GivenOrderIsReadyToPay()
         {
+            DependecyRegistrar.SimplePaySettings.HasDetailedItems = true;
         }
 
         [Then("Items array is filled with gross prices")]
@@ -286,6 +281,32 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         {
             var request = _startRequestDriver.GetStartRequest();
             _httpClientFactory.Url.AbsoluteUri.Should().Be(SimplePayUrls.START_URL);
+        }
+
+        [Then("Items array are filled with all items in the request")]
+        public void ThenItemsArrayAreFilledWithAllItemsInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.Items.Should().NotBeNull();
+            request.Items.Count.Should().Be(OrderProvider.OrderItems.Count);
+        }
+
+        [Given("Order is ready to pay without detailed items")]
+        public void GivenOrderIsReadyToPayWithoutDetailedItems()
+        {
+            DependecyRegistrar.SimplePaySettings.HasDetailedItems = false;
+            DependecyRegistrar.SimplePaySettings.OneItemName = "Test Product";
+        }
+
+        [Then("Items array is filled with one item in the request")]
+        public void ThenItemsArrayIsFilledWithOneItemInTheRequest()
+        {
+            var request = _startRequestDriver.GetStartRequest();
+            request.Items.Should().NotBeNull();
+            request.Items.Count.Should().Be(1);
+            request.Items[0].Title.Should().Be(DependecyRegistrar.SimplePaySettings.OneItemName);
+            request.Items[0].Amount.Should().Be(OrderProvider.OrderItems.Sum(i => i.Quantity));
+            request.Items[0].Price.Should().Be(OrderProvider.OrderItems.Sum(i => i.PriceInclTax));
         }
 
     }

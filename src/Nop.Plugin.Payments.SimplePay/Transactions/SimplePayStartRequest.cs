@@ -74,7 +74,7 @@ public class SimplePayStartRequest
             Merchant = _settings.MerchantKey,
             ShippingCost = Convert.ToInt32(order.OrderShippingInclTax),
             Discount = Convert.ToInt32(order.OrderDiscount),
-            Items = await CreateItems(orderItems),
+            Items = _settings.HasDetailedItems ? await CreateItems(orderItems) : CreateOneItem(orderItems),
             CustomerEmail = customer.Email,
             Invoice = await CreateInvoiceAsync(customer),
             Methods = [ _settings.DefaultPaymentMethods.GetDescription() ],
@@ -150,6 +150,21 @@ public class SimplePayStartRequest
                 Tax = 0,
             });
         }
+        return items;
+    }
+
+    private List<StartRequestItem> CreateOneItem(IList<OrderItem> orderItems)
+    {
+        var items = new List<StartRequestItem>
+        {
+            new StartRequestItem
+            {
+                Title = _settings.OneItemName,
+                Amount = orderItems.Sum(i => i.Quantity),
+                Price = orderItems.Sum(i => i.PriceInclTax),
+                Tax = 0,
+            }
+        };
         return items;
     }
 }

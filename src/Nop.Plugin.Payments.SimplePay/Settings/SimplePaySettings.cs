@@ -18,6 +18,7 @@ public class SimplePaySettings : ISettings
     public bool UseSandbox { get; set; }
     public decimal AddExtraPercentageToOrderTotal { get; set; }
     public decimal AddExtraToOrderTotal { get; set; }
-    public bool HasDetailedItems { get; set; }
+    public bool HasDetailedItems { get; set; } = true;
+    public string OneItemName { get; set; }
     public IPAddress OtpIpnAddress { get; set; }
 }
