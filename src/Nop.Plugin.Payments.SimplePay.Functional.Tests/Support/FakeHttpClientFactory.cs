@@ -6,7 +6,7 @@ using Moq.Protected;
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 public class FakeHttpClientFactory : IHttpClientFactory
 {
-    private readonly HttpClientFactorySettings _settings;
+    public HttpClientFactorySettings Settings { get; private set; }
     public Uri Url { get; private set; }
     public string RequestBody { get; private set; }
     public HttpContentHeaders Headers { get; private set; }
@@ -14,7 +14,7 @@ public class FakeHttpClientFactory : IHttpClientFactory
     public FakeHttpClientFactory(
         HttpClientFactorySettings settings)
     {
-        _settings = settings;
+        Settings = settings;
     }
 
     public HttpClient CreateClient(string name)
@@ -31,7 +31,7 @@ public class FakeHttpClientFactory : IHttpClientFactory
             .ReturnsAsync(new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(_settings.ResponseBody)
+                Content = new StringContent(Settings.ResponseBody)
             });
 
         return new HttpClient(mockMessageHandler.Object);

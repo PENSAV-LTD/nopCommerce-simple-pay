@@ -1,6 +1,6 @@
 Feature: Simple Pay Start request's tests
 
-Simple Pay start request call
+Simple Pay start request call.
 
 # Configured merchant key is used in the request
 Scenario: Start request call with given merchant key
