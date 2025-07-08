@@ -26,25 +26,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay start response\'s tests", @"/*
-Test Get right response
-Test Payment url is included in the html page
-Test Error and errorCodes in the response
-Test validate signature from http header
-
-Example
-{
-    ""salt"":""KAC6ZRUacmQit98nFKOpjXgkwdC0Grzl"",
-    ""merchant"":""PUBLICTESTHUF"",
-    ""orderRef"":""101010515680292482600"",
-    ""currency"":""HUF"",
-    ""transactionId"":99844942,
-    ""timeout"":""2019-09-11T21:14:08+02:00"",
-    ""total"":25.0,
-    ""paymentUrl"":""https://sandbox.simplepay.hu/pay/pay/pspHU/8f4oKRec5R1B696xlxbOcj1jRhhABA2pwS
-    LQDPW60zoGSDWzDU""
-}
-*/", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay start response\'s tests", "Simple pay start response.", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -108,6 +90,37 @@ Example
         async System.Threading.Tasks.Task Xunit.IAsyncLifetime.DisposeAsync()
         {
             await this.TestTearDownAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Start response is valid")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
+        [Xunit.TraitAttribute("Description", "Start response is valid")]
+        public async System.Threading.Tasks.Task StartResponseIsValid()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Start response is valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 7
+    await testRunner.GivenAsync("StartResponse setup BadRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 8
+    await testRunner.WhenAsync("StartRequest is sent for BadRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 9
+    await testRunner.ThenAsync("Response throws exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]

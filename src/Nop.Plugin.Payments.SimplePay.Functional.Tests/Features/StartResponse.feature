@@ -2,7 +2,12 @@ Feature: Simple Pay start response's tests
 
 Simple pay start response.
 
-# Test Get right response
+# Test Throw exception if it doesn't get right response
+Scenario: Start response is valid
+    Given StartResponse setup BadRequest
+    When StartRequest is sent for BadRequest
+    Then Response throws exception
+
 # Test Payment url is included in the html page
 # Test Error and errorCodes in the response
 # Test validate signature from http header

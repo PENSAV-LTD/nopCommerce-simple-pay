@@ -28,9 +28,9 @@ public class FakeHttpClientFactory : IHttpClientFactory
                 Headers = request.Content.Headers;
                 RequestBody = request.Content.ReadAsStringAsync().Result;
             })
-            .ReturnsAsync(new HttpResponseMessage
+            .ReturnsAsync(new HttpResponseMessage()
             {
-                StatusCode = HttpStatusCode.OK,
+                StatusCode = Settings.StatusCode,
                 Content = new StringContent(Settings.ResponseBody)
             });
 

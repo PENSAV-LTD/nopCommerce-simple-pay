@@ -29,7 +29,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
             _merchantKey = merchantKey;
         }
 
-        [When("StartRequest is sent")]
+        [StepDefinition("StartRequest is sent")]
         public void WhenStartRequestIsSent()
         {
             if (string.IsNullOrEmpty(_merchantKey))

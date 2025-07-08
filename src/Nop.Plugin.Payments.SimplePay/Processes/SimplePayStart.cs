@@ -39,11 +39,7 @@ public class SimplePayStart
 
         var client = _httpClientFactory.CreateClient();
         using HttpResponseMessage response = await client.PostAsync(simplePayUrlProvider.StartUrl, content);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception("SimplePay start request failed.");
-        }
-
+        response.EnsureSuccessStatusCode();
         var responseContent = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<StartResponse>(responseContent);
     }
