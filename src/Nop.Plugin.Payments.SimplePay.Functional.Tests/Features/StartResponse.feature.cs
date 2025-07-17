@@ -92,14 +92,14 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Features
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Start response is valid")]
+        [Xunit.SkippableFactAttribute(DisplayName="Throw exception if it doesn\'t get right response")]
         [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
-        [Xunit.TraitAttribute("Description", "Start response is valid")]
-        public async System.Threading.Tasks.Task StartResponseIsValid()
+        [Xunit.TraitAttribute("Description", "Throw exception if it doesn\'t get right response")]
+        public async System.Threading.Tasks.Task ThrowExceptionIfItDoesntGetRightResponse()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Start response is valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Throw exception if it doesn\'t get right response", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -118,6 +118,37 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 9
     await testRunner.ThenAsync("Response throws exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Validate signature from http header")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
+        [Xunit.TraitAttribute("Description", "Validate signature from http header")]
+        public async System.Threading.Tasks.Task ValidateSignatureFromHttpHeader()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate signature from http header", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 14
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 15
+    await testRunner.GivenAsync("StartResponse setup valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 16
+    await testRunner.WhenAsync("StartRequest is sent for ValidResponse", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 17
+    await testRunner.ThenAsync("Response has valid signarture in the header", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

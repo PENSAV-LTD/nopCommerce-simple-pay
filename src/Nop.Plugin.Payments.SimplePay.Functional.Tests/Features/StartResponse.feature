@@ -3,7 +3,7 @@ Feature: Simple Pay start response's tests
 Simple pay start response.
 
 # Test Throw exception if it doesn't get right response
-Scenario: Start response is valid
+Scenario: Throw exception if it doesn't get right response
     Given StartResponse setup BadRequest
     When StartRequest is sent for BadRequest
     Then Response throws exception
@@ -11,6 +11,10 @@ Scenario: Start response is valid
 # Test Payment url is included in the html page
 # Test Error and errorCodes in the response
 # Test validate signature from http header
+Scenario: Validate signature from http header
+    Given StartResponse setup valid signature
+    When StartRequest is sent for ValidResponse
+    Then Response has valid signarture in the header
 # Example
 # {
 #     "salt":"KAC6ZRUacmQit98nFKOpjXgkwdC0Grzl",

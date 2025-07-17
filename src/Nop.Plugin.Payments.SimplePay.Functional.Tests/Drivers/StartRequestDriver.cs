@@ -47,4 +47,8 @@ public class StartRequestDriver
     {
         return _fakeHttpClientFactory.Headers;
     }
+    public HttpResponseMessage GetResponse()
+    {
+        return _fakeHttpClientFactory.ResponseMessage;
+    }
 }

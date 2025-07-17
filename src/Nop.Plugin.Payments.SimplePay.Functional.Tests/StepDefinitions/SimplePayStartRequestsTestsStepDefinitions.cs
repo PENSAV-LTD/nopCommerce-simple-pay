@@ -70,6 +70,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         [Given("Order is ready to pay")]
         public void GivenOrderIsReadyToPay()
         {
+            _httpClientFactory.Settings.StatusCode = System.Net.HttpStatusCode.OK;
             DependecyRegistrar.SimplePaySettings.HasDetailedItems = true;
         }
 
