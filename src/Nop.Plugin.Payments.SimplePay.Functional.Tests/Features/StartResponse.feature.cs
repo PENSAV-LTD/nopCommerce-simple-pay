@@ -117,7 +117,7 @@ this.ScenarioInitialize(scenarioInfo);
     await testRunner.WhenAsync("StartRequest is sent for BadRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
-    await testRunner.ThenAsync("Response throws exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("Response throws exception for BadRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -149,6 +149,37 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 17
     await testRunner.ThenAsync("Response has valid signarture in the header", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Throw exception if signature is not sent in the header")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
+        [Xunit.TraitAttribute("Description", "Throw exception if signature is not sent in the header")]
+        public async System.Threading.Tasks.Task ThrowExceptionIfSignatureIsNotSentInTheHeader()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Throw exception if signature is not sent in the header", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 20
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 21
+    await testRunner.GivenAsync("StartResponse setup without signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 22
+    await testRunner.WhenAsync("StartRequest is sent for ValidResponse", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 23
+    await testRunner.ThenAsync("Response throws exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

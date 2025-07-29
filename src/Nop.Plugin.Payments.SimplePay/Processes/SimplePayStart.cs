@@ -41,6 +41,16 @@ public class SimplePayStart
         using HttpResponseMessage response = await client.PostAsync(simplePayUrlProvider.StartUrl, content);
         response.EnsureSuccessStatusCode();
         var responseContent = await response.Content.ReadAsStringAsync();
+        response.Headers.TryGetValues("Signature", out var signatureValues);
+        var responseSignature = _messageToSendValidator.CalculateSignature(
+            request.Merchant,
+            responseContent);
+        if (signatureValues == null 
+            || signatureValues.Count() == 0 
+            || signatureValues.First() != responseSignature)
+        {
+            throw new InvalidOperationException("Response signature header is missing or invalid.");
+        }
         return JsonSerializer.Deserialize<StartResponse>(responseContent);
     }
 

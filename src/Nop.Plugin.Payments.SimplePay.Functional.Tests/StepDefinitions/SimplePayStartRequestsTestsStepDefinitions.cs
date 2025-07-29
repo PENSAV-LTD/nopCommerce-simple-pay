@@ -27,6 +27,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         public void GivenMerchantKeyIsSetAs(string merchantKey)
         {
             _merchantKey = merchantKey;
+            DependecyRegistrar.SimplePaySettings.MerchantKey = merchantKey;
         }
 
         [StepDefinition("StartRequest is sent")]
@@ -34,10 +35,13 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         {
             if (string.IsNullOrEmpty(_merchantKey))
             {
+                DependecyRegistrar.SimplePaySettings.MerchantKey = "TEST";
+                _httpClientFactory.SetupSignature();
                 _startRequestDriver.SendStartRequest(OrderProvider.Order);
             }
             else
             {
+                _httpClientFactory.SetupSignature();
                 _startRequestDriver.SendStartRequest(OrderProvider.Order, _merchantKey);
             }
         }

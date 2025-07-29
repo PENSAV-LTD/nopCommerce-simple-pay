@@ -16,6 +16,7 @@ public class FakeHttpClientFactory : IHttpClientFactory
     public string RequestBody { get; private set; }
     public HttpContentHeaders Headers { get; private set; }
     public HttpResponseMessage ResponseMessage { get; private set; }
+    private string _signature;
 
     public FakeHttpClientFactory(
         HttpClientFactorySettings settings,
@@ -28,6 +29,13 @@ public class FakeHttpClientFactory : IHttpClientFactory
         _simplePaySettings = simplePaySettings;
     }
 
+    public void SetupSignature(string signature = null)
+    {
+        _signature = signature ?? _messageToSendValidator.CalculateSignature(
+            _simplePaySettings.MerchantKey,
+            Settings.ResponseBody);
+    }
+
     public HttpClient CreateClient(string name)
     {
         ResponseMessage = new HttpResponseMessage()
@@ -35,7 +43,8 @@ public class FakeHttpClientFactory : IHttpClientFactory
             StatusCode = Settings.StatusCode,
             Content = new StringContent(Settings.ResponseBody)
         };
-        ResponseMessage.Headers.Add("Signature", _messageToSendValidator.CalculateSignature(_simplePaySettings.MerchantKey, Settings.ResponseBody));
+        ResponseMessage.Headers.Clear();
+        ResponseMessage.Headers.Add("Signature", _signature);
         var mockMessageHandler = new Mock<HttpMessageHandler>();
         mockMessageHandler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
