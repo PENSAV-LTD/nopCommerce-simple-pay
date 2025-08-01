@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Nop.Plugin.Payments.SimplePay.Exceptions;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
-using Nop.Plugin.Payments.SimplePay.Processes;
-using Reqnroll;
 
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
 {
@@ -105,6 +103,38 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
         public void GivenStartResponseSetupWithoutSignature()
         {
             _fakeHttpClientFactory.SetupSignature("");
+        }
+
+        [Given("StartResponse for errors")]
+        public void GivenStartResponseForErrors()
+        {
+            _httpClientFactorySettings.ResponseBody = "{\"errorCodes\":[5321]}";
+            DependecyRegistrar.SimplePaySettings.MerchantKey = _merchantKey;
+            _fakeHttpClientFactory.SetupSignature();
+        }
+
+        [When("StartRequest is sent for errors")]
+        public void WhenStartRequestIsSentForErrors()
+        {
+            try
+            { 
+                _startRequestDriver.SendStartRequest(OrderProvider.Order, _merchantKey);
+            }
+            catch (Exception ex)
+            {
+                _exception = ex;
+            }
+        }
+
+        [Then("Response contains error and errorCodes")]
+        public void ThenResponseContainsErrorAndErrorCodes()
+        {
+            _exception.Should().NotBeNull();
+            _exception.Should().BeOfType<SimplePayError>();
+            var simplePayError = _exception as SimplePayError;
+            simplePayError.ErrorCodes.Should().NotBeNull();
+            simplePayError.ErrorCodes.Count.Should().Be(1);
+            simplePayError.ErrorCodes[0].Should().Be(5321);
         }
 
     }

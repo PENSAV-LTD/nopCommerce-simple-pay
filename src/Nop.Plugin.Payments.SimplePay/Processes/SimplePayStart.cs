@@ -5,6 +5,7 @@ using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Models.Responses;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using Nop.Plugin.Payments.SimplePay.Exceptions;
 
 namespace Nop.Plugin.Payments.SimplePay.Processes;
 public class SimplePayStart
@@ -50,6 +51,11 @@ public class SimplePayStart
             || signatureValues.First() != responseSignature)
         {
             throw new InvalidOperationException("Response signature header is missing or invalid.");
+        }
+        if (responseContent.Contains("errorCodes"))
+        {
+            var errorResponse = JsonSerializer.Deserialize<ErrorResponse>(responseContent);
+            throw new SimplePayError(errorResponse.ErrorCodes);
         }
         return JsonSerializer.Deserialize<StartResponse>(responseContent);
     }

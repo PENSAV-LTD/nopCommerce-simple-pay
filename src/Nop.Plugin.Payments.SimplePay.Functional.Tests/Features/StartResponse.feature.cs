@@ -123,15 +123,15 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Validate signature from http header")]
+        [Xunit.SkippableFactAttribute(DisplayName="Payment url is included in the html page")]
         [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
-        [Xunit.TraitAttribute("Description", "Validate signature from http header")]
-        public async System.Threading.Tasks.Task ValidateSignatureFromHttpHeader()
+        [Xunit.TraitAttribute("Description", "Payment url is included in the html page")]
+        public async System.Threading.Tasks.Task PaymentUrlIsIncludedInTheHtmlPage()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate signature from http header", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 14
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Payment url is included in the html page", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 13
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -141,13 +141,44 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 14
+    await testRunner.GivenAsync("StartResponse for errors", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 15
-    await testRunner.GivenAsync("StartResponse setup valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.WhenAsync("StartRequest is sent for errors", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 16
+    await testRunner.ThenAsync("Response contains error and errorCodes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Validate signature from http header")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
+        [Xunit.TraitAttribute("Description", "Validate signature from http header")]
+        public async System.Threading.Tasks.Task ValidateSignatureFromHttpHeader()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate signature from http header", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 18
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 19
+    await testRunner.GivenAsync("StartResponse setup valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 20
     await testRunner.WhenAsync("StartRequest is sent for ValidResponse", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 17
+#line 21
     await testRunner.ThenAsync("Response has valid signarture in the header", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -162,7 +193,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Throw exception if signature is not sent in the header", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 20
+#line 24
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -172,13 +203,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 21
+#line 25
     await testRunner.GivenAsync("StartResponse setup without signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 22
+#line 26
     await testRunner.WhenAsync("StartRequest is sent for ValidResponse", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 23
+#line 27
     await testRunner.ThenAsync("Response throws exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

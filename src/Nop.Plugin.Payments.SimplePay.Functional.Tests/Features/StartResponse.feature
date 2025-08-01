@@ -10,6 +10,10 @@ Scenario: Throw exception if it doesn't get right response
 
 # Test Payment url is included in the html page
 # Test Error and errorCodes in the response
+Scenario: Payment url is included in the html page
+    Given StartResponse for errors
+    When StartRequest is sent for errors
+    Then Response contains error and errorCodes
 # Test validate signature from http header
 Scenario: Validate signature from http header
     Given StartResponse setup valid signature
