@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Nop.Core;
-using Nop.Core.Domain.Orders;
+﻿using Nop.Core;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
-using Nop.Services.Payments;
 using Nop.Services.Plugins;
 
 namespace Nop.Plugin.Payments.SimplePay
@@ -16,7 +10,7 @@ namespace Nop.Plugin.Payments.SimplePay
     {
         private readonly ISettingService _settingService;
         protected readonly ILocalizationService _localizationService;
-        private readonly IWebHelper _webHelper;
+        protected readonly IWebHelper _webHelper;
 
         public override string GetConfigurationPageUrl()
         {

@@ -5,5 +5,4 @@ public class ErrorResponse
 {
     [JsonPropertyName("errorCodes")]
     public List<int> ErrorCodes { get; set; }
-    //public bool HasError => ErrorCodes != null && ErrorCodes.Count > 0;
 }

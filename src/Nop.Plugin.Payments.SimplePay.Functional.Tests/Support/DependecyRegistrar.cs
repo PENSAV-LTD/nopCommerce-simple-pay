@@ -1,17 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Net.Http.Headers;
 using Moq;
 using Nop.Core;
-using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
-using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers.Creators;
-using Nop.Plugin.Payments.SimplePay.Models;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Catalog;
@@ -26,6 +20,8 @@ using Reqnroll.Microsoft.Extensions.DependencyInjection;
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 internal class DependecyRegistrar
 {
+    public static Mock<HttpResponse> MockResponse { get; set; } = new Mock<HttpResponse>();
+    public static Mock<HttpContext> MockContext { get; set; } = new Mock<HttpContext>();
     public static SimplePaySettings SimplePaySettings { get; set; } = new SimplePaySettings
     {
         MerchantKey = "merchantkey",
@@ -78,6 +74,12 @@ internal class DependecyRegistrar
         services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePayUrls>("PRODUCTION");
         services.AddSingleton<SimplePayPaymentProcessor, SimplePayPaymentProcessor>();
         services.AddScoped<StartRequestDriver, StartRequestDriver>();
+
+        MockContext.SetupGet(c => c.Response).Returns(MockResponse.Object);
+
+        var mockAccessor = new Mock<IHttpContextAccessor>();
+        mockAccessor.SetupGet(a => a.HttpContext).Returns(MockContext.Object);
+        services.AddSingleton(mockAccessor.Object);
 
         return services;
     }

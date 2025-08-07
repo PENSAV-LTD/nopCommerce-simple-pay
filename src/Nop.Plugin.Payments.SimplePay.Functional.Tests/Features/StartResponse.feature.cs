@@ -123,15 +123,15 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Payment url is included in the html page")]
+        [Xunit.SkippableFactAttribute(DisplayName="Error and errorCodes in the response")]
         [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
-        [Xunit.TraitAttribute("Description", "Payment url is included in the html page")]
-        public async System.Threading.Tasks.Task PaymentUrlIsIncludedInTheHtmlPage()
+        [Xunit.TraitAttribute("Description", "Error and errorCodes in the response")]
+        public async System.Threading.Tasks.Task ErrorAndErrorCodesInTheResponse()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Payment url is included in the html page", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 13
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Error and errorCodes in the response", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -141,13 +141,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 14
+#line 13
     await testRunner.GivenAsync("StartResponse for errors", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 15
+#line 14
     await testRunner.WhenAsync("StartRequest is sent for errors", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 15
     await testRunner.ThenAsync("Response contains error and errorCodes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -211,6 +211,37 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 27
     await testRunner.ThenAsync("Response throws exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Payment url is included in the html page")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay start response\'s tests")]
+        [Xunit.TraitAttribute("Description", "Payment url is included in the html page")]
+        public async System.Threading.Tasks.Task PaymentUrlIsIncludedInTheHtmlPage()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Payment url is included in the html page", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 30
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 31
+    await testRunner.GivenAsync("StartResponse setup valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 32
+    await testRunner.WhenAsync("StartRequest is sent for ValidResponse", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 33
+    await testRunner.ThenAsync("Response contains payment url", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

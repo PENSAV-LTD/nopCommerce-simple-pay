@@ -1,4 +1,5 @@
-﻿using Nop.Plugin.Payments.SimplePay.Exceptions;
+﻿using Moq;
+using Nop.Plugin.Payments.SimplePay.Exceptions;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
@@ -135,6 +136,14 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
             simplePayError.ErrorCodes.Should().NotBeNull();
             simplePayError.ErrorCodes.Count.Should().Be(1);
             simplePayError.ErrorCodes[0].Should().Be(5321);
+        }
+
+        [Then("Response contains payment url")]
+        public void ThenResponseContainsPaymentUrl()
+        {
+            DependecyRegistrar.MockResponse.Verify(
+                r => r.Redirect(@"/SimplePay/Payment?paymentUrl=https%3A%2F%2Fsandbox.simplepay.hu%2Fpay%2Fpay%2FpspHU%2F8f4oKRec5R1B696xlxbOcj1jRhhABA2pwSLQDPW60zoGSDWzDU&orderId=1"), 
+                Times.AtLeastOnce);
         }
 
     }

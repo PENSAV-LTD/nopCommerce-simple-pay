@@ -8,12 +8,12 @@ Scenario: Throw exception if it doesn't get right response
     When StartRequest is sent for BadRequest
     Then Response throws exception for BadRequest
 
-# Test Payment url is included in the html page
 # Test Error and errorCodes in the response
-Scenario: Payment url is included in the html page
+Scenario: Error and errorCodes in the response
     Given StartResponse for errors
     When StartRequest is sent for errors
     Then Response contains error and errorCodes
+
 # Test validate signature from http header
 Scenario: Validate signature from http header
     Given StartResponse setup valid signature
@@ -25,6 +25,13 @@ Scenario: Throw exception if signature is not sent in the header
     Given StartResponse setup without signature
     When StartRequest is sent for ValidResponse
     Then Response throws exception
+
+# Test Payment url is included in the html page
+Scenario: Payment url is included in the html page
+    Given StartResponse setup valid signature
+    When StartRequest is sent for ValidResponse
+    Then Response contains payment url
+
 # Example
 # {
 #     "salt":"KAC6ZRUacmQit98nFKOpjXgkwdC0Grzl",

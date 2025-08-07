@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.SimplePay.Components;
@@ -70,9 +72,19 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
 
     public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
     {
-        // start call
         var startRequest = await _simplePayStartRequest.CreateStartRequestAsync(postProcessPaymentRequest.Order);
         var startResponse = await _simplePayStart.Send(startRequest);
+        if (string.IsNullOrEmpty(startResponse.PaymentUrl))
+            throw new NopException("Payment URL is empty");
+        var url = QueryHelpers.
+            AddQueryString(
+            $"{_webHelper.GetStoreLocation()}/SimplePay/Payment",
+            new List<KeyValuePair<string, string>>
+            {
+                new("paymentUrl", startResponse.PaymentUrl),
+                new("orderId", postProcessPaymentRequest.Order.Id.ToString())
+            });
+        _httpContextAccessor.HttpContext.Response.Redirect(url);
     }
 
     public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
@@ -105,11 +117,13 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
     private readonly SimplePaySettings _simplePaySettings;
     private readonly SimplePayStart _simplePayStart;
     private readonly SimplePayStartRequest _simplePayStartRequest;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public SimplePayPaymentProcessor(
         SimplePaySettings simplePaySettings,
         SimplePayStart simplePayStart,
         SimplePayStartRequest simplePayStartRequest,
+        IHttpContextAccessor httpContextAccessor,
         ISettingService settingService, 
         ILocalizationService localizationService,
         IWebHelper webHelper) 
@@ -118,5 +132,6 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         _simplePaySettings = simplePaySettings;
         _simplePayStart = simplePayStart;
         _simplePayStartRequest = simplePayStartRequest;
+        _httpContextAccessor = httpContextAccessor;
     }
 }
