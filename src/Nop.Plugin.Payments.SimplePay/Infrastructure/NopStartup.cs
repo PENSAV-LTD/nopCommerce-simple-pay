@@ -5,6 +5,7 @@ using Nop.Core.Infrastructure;
 using Nop.Plugin.Payments.SimplePay.Messages.Generators;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
 using Nop.Plugin.Payments.SimplePay.Processes;
+using Nop.Plugin.Payments.SimplePay.Services;
 using Nop.Plugin.Payments.SimplePay.Transactions;
 
 namespace Nop.Plugin.Payments.SimplePay.Infrastructure;
@@ -19,6 +20,7 @@ internal class NopStartup : INopStartup
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IMessageToSendValidator, MessageToSendValidator>();
+        services.AddScoped<IResponseService, ResponseService>();
 
         services.AddScoped<SimplePayStartRequest, SimplePayStartRequest>();
         services.AddScoped<SimplePayStart, SimplePayStart>();
