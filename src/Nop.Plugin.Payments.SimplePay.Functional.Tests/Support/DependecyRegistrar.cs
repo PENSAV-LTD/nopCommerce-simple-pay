@@ -7,6 +7,7 @@ using Moq;
 using Nop.Core;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Processes;
+using Nop.Plugin.Payments.SimplePay.Services;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
@@ -53,6 +54,7 @@ internal class DependecyRegistrar
         services.AddSingleton(mockOrderService.Object);
         services.AddSingleton(mockProductService.Object);
 
+        var mockResponseService = new Mock<IResponseService>();
         var mockCustomerService = new Mock<ICustomerService>();
         var mockAddressService = new Mock<IAddressService>();
         var mockCountryService = new Mock<ICountryService>();
@@ -62,7 +64,7 @@ internal class DependecyRegistrar
         services.AddSingleton(mockAddressService.Object);
         services.AddSingleton(mockCountryService.Object);
         services.AddSingleton(mockStateProvinceService.Object);
-
+        services.AddSingleton(mockResponseService.Object);
         var mockUrlHelper = new Mock<IUrlHelper>();
         SetupUrlHelper(mockUrlHelper);
 

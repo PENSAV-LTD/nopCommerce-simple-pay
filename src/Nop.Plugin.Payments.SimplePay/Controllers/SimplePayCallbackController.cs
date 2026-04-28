@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Payments.SimplePay.Domain;
 using Nop.Plugin.Payments.SimplePay.Exceptions;
@@ -28,42 +29,53 @@ public class SimplePayCallbackController : BasePublicController
 
     public async Task<ViewResult> Success(string r, string s)
     {
-        await ProcessResponse(r, s);
-        return View("~/Plugins/Payments.SimpleyPay/Views/Callback/Success.cshtml");
+        var response = await ProcessResponse(r, s);
+        if (response.Event != "SUCCESS")
+            throw new InvalidOperationException("Invalid event type for success callback: " + response.Event);
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Success.cshtml");
     }
 
     public async Task<ViewResult> Fail(string r, string s)
     {
-        await ProcessResponse(r, s);
-        return View("~/Plugins/Payments.SimpleyPay/Views/Callback/Fail.cshtml");
+        var response = await ProcessResponse(r, s);
+        if (response.Event != "FAIL")
+            throw new InvalidOperationException("Invalid event type for fail callback: " + response.Event);
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Fail.cshtml");
     }
 
     public async Task<ViewResult> Cancel(string r, string s)
     {
-        await ProcessResponse(r, s);
-        return View("~/Plugins/Payments.SimpleyPay/Views/Callback/Cancel.cshtml");
+        var response = await ProcessResponse(r, s);
+        if (response.Event != "CANCEL")
+            throw new InvalidOperationException("Invalid event type for cancel callback: " + response.Event);
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Cancel.cshtml");
     }
 
     public async Task<ViewResult> Timeout(string r, string s)
     {
-        await ProcessResponse(r, s);
-        return View("~/Plugins/Payments.SimpleyPay/Views/Callback/Timeout.cshtml");
+        var response = await ProcessResponse(r, s);
+        if (response.Event != "TIMEOUT")
+            throw new InvalidOperationException("Invalid event type for timeout callback: " + response.Event);
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Timeout.cshtml");
     }
 
-    private async Task ProcessResponse(string jsonString, string signature)
+    private async Task<CallbackResponse> ProcessResponse(string jsonString, string signature)
     {
         var response = ValidateAndGetResponse(jsonString, signature);
         await _responseService.InsertResponseAsync(ConvertToDomain(response));
+        return response;
     }
 
     private CallbackResponse ValidateAndGetResponse(string jsonStr, string signature)
     {
         var merchantKey = _simplePaySettings.MerchantKey;
-        if (_messageToSendValidator.CalculateSignature(merchantKey, jsonStr) != signature)
+        var decodedJsonStr = Convert.FromBase64String(jsonStr);
+        var json = Encoding.UTF8.GetString(decodedJsonStr);
+        if (_messageToSendValidator.CalculateSignature(merchantKey, json) != signature)
         {
             throw new SimplePayException("SimplePayCallback: Invalid signature");
         }
-        return JsonSerializer.Deserialize<CallbackResponse>(jsonStr);
+        return JsonSerializer.Deserialize<CallbackResponse>(json);
     }
 
     private Responses ConvertToDomain(CallbackResponse callbackResponse)
@@ -73,7 +85,7 @@ public class SimplePayCallbackController : BasePublicController
         return new Responses
         {
             OrderId = callbackResponse.OrderRef,
-            Code = int.Parse(callbackResponse.ResponseCode),
+            Code = callbackResponse.ResponseCode,
             MerchantId = callbackResponse.Merchant,
             TransactionId = callbackResponse.TransactionId,
             Events = new ResponseEvents { Name = callbackResponse.Event }

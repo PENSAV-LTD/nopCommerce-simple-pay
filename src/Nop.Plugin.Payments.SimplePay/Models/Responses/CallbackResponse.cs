@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
 public class CallbackResponse
 {
-    [JsonProperty("r")]
-    public string ResponseCode { get; set; }
-    [JsonProperty("t")]
-    public string TransactionId { get; set; }
-    [JsonProperty("e")]
+    [JsonPropertyName("r")]
+    public int ResponseCode { get; set; }
+    [JsonPropertyName("t")]
+    public long TransactionId { get; set; }
+    [JsonPropertyName("e")]
     public string Event { get; set; }
-    [JsonProperty("m")]
+    [JsonPropertyName("m")]
     public string Merchant { get; set; }
-    [JsonProperty("o")]
+    [JsonPropertyName("o")]
     public string OrderRef { get; set; }
 }
