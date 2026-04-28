@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Payments.SimplePay.Controllers;
+using Nop.Plugin.Payments.SimplePay.Exceptions;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
 using Nop.Plugin.Payments.SimplePay.Services;
@@ -52,91 +53,101 @@ public class SimplePayCallbacksTestsStepDefinitions
     [Given("Callback setup for fail response")]
     public void GivenCallbackSetupForFailResponse()
     {
-        throw new PendingStepException();
+        var jsonString = $@"{{""r"":1,""t"":99844942,""e"":""FAIL"",""m"":""{DependecyRegistrar.SimplePaySettings.MerchantKey}"",""o"":""101010515680292482600""}}";
+        _responseJson = Encoding.UTF8.GetBytes(jsonString);
+        _signature = _messageToSendValidator.CalculateSignature(DependecyRegistrar.SimplePaySettings.MerchantKey, jsonString);
     }
 
     [When("Callback is sent for fail response")]
     public void WhenCallbackIsSentForFailResponse()
     {
-        throw new PendingStepException();
+        _viewResult = _callbackController.Fail(Convert.ToBase64String(_responseJson), _signature).GetAwaiter().GetResult() as ViewResult;
     }
 
     [Then("Display failed page")]
     public void ThenDisplayFailedPage()
     {
-        throw new PendingStepException();
+        _viewResult.ViewName.Should().Be("~/Plugins/Payments.SimplePay/Views/Callback/Fail.cshtml");
     }
 
     [Given("Callback setup for timeout response")]
     public void GivenCallbackSetupForTimeoutResponse()
     {
-        throw new PendingStepException();
+        var jsonString = $@"{{""r"":2,""t"":99844942,""e"":""TIMEOUT"",""m"":""{DependecyRegistrar.SimplePaySettings.MerchantKey}"",""o"":""101010515680292482600""}}";
+        _responseJson = Encoding.UTF8.GetBytes(jsonString);
+        _signature = _messageToSendValidator.CalculateSignature(DependecyRegistrar.SimplePaySettings.MerchantKey, jsonString);
     }
 
     [When("Callback is sent for timeout response")]
     public void WhenCallbackIsSentForTimeoutResponse()
     {
-        throw new PendingStepException();
+        _viewResult = _callbackController.Timeout(Convert.ToBase64String(_responseJson), _signature).GetAwaiter().GetResult() as ViewResult;
     }
 
     [Then("Display timeout page")]
     public void ThenDisplayTimeoutPage()
     {
-        throw new PendingStepException();
+        _viewResult.ViewName.Should().Be("~/Plugins/Payments.SimplePay/Views/Callback/Timeout.cshtml");
     }
 
     [Given("Callback setup for cancel response")]
     public void GivenCallbackSetupForCancelResponse()
     {
-        throw new PendingStepException();
+        var jsonString = $@"{{""r"":3,""t"":99844942,""e"":""CANCEL"",""m"":""{DependecyRegistrar.SimplePaySettings.MerchantKey}"",""o"":""101010515680292482600""}}";
+        _responseJson = Encoding.UTF8.GetBytes(jsonString);
+        _signature = _messageToSendValidator.CalculateSignature(DependecyRegistrar.SimplePaySettings.MerchantKey, jsonString);
     }
 
     [When("Callback is sent for cancel response")]
     public void WhenCallbackIsSentForCancelResponse()
     {
-        throw new PendingStepException();
+        _viewResult = _callbackController.Cancel(Convert.ToBase64String(_responseJson), _signature).GetAwaiter().GetResult() as ViewResult;
     }
 
     [Then("Display cancel page")]
     public void ThenDisplayCancelPage()
     {
-        throw new PendingStepException();
+        _viewResult.ViewName.Should().Be("~/Plugins/Payments.SimplePay/Views/Callback/Cancel.cshtml");
     }
 
     [Given("Callback setup valid signature")]
     public void GivenCallbackSetupValidSignature()
     {
-        throw new PendingStepException();
+        var jsonString = $@"{{""r"":4,""t"":99844942,""e"":""SUCCESS"",""m"":""{DependecyRegistrar.SimplePaySettings.MerchantKey}"",""o"":""101010515680292482600""}}";
+        _responseJson = Encoding.UTF8.GetBytes(jsonString);
+        _signature = _messageToSendValidator.CalculateSignature(DependecyRegistrar.SimplePaySettings.MerchantKey, jsonString);
     }
 
     [When("Callback is sent for valid signature")]
     public void WhenCallbackIsSentForValidSignature()
     {
-        throw new PendingStepException();
     }
 
     [Then("No exception is thrown for valid signature")]
     public void ThenNoExceptionIsThrownForValidSignature()
     {
-        throw new PendingStepException();
+        var action = () => _callbackController.Success(Convert.ToBase64String(_responseJson), _signature).GetAwaiter().GetResult();
+        action.Should().NotThrow();
     }
 
     [Given("Callback setup not valid signature")]
     public void GivenCallbackSetupNotValidSignature()
     {
-        throw new PendingStepException();
+        var jsonString = $@"{{""r"":4,""t"":99844942,""e"":""SUCCESS"",""m"":""{DependecyRegistrar.SimplePaySettings.MerchantKey}"",""o"":""101010515680292482600""}}";
+        _responseJson = Encoding.UTF8.GetBytes(jsonString);
+        _signature = _messageToSendValidator.CalculateSignature("FAILED", jsonString);
     }
 
     [When("Callback is sent for not valid signature")]
     public void WhenCallbackIsSentForNotValidSignature()
     {
-        throw new PendingStepException();
     }
 
     [Then("Throw exception is thrown for not valid signature")]
     public void ThenThrowExceptionIsThrownForNotValidSignature()
     {
-        throw new PendingStepException();
+        var action = () => _callbackController.Success(Convert.ToBase64String(_responseJson), _signature).GetAwaiter().GetResult();
+        action.Should().Throw<SimplePayException>();
     }
 
 }
