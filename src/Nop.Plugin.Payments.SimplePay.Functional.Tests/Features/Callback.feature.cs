@@ -26,7 +26,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay Callback\'s tests", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay Callback\'s tests", "Simple Pay Callback\'s tests.", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -100,7 +100,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test Success callback", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 3
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -110,13 +110,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 4
+#line 7
     await testRunner.GivenAsync("Callback setup for success response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 5
+#line 8
     await testRunner.WhenAsync("Callback is sent for success response", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 6
+#line 9
     await testRunner.ThenAsync("Display success page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -131,7 +131,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test Fail callback", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 9
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -141,13 +141,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 10
+#line 13
     await testRunner.GivenAsync("Callback setup for fail response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 11
+#line 14
     await testRunner.WhenAsync("Callback is sent for fail response", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 15
     await testRunner.ThenAsync("Display failed page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -162,7 +162,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test Timeout callback", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 15
+#line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -172,13 +172,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 16
+#line 19
     await testRunner.GivenAsync("Callback setup for timeout response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 17
+#line 20
     await testRunner.WhenAsync("Callback is sent for timeout response", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 18
+#line 21
     await testRunner.ThenAsync("Display timeout page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -193,7 +193,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test Cancel callback", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 21
+#line 24
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -203,13 +203,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 22
+#line 25
     await testRunner.GivenAsync("Callback setup for cancel response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 23
+#line 26
     await testRunner.WhenAsync("Callback is sent for cancel response", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 24
+#line 27
     await testRunner.ThenAsync("Display cancel page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -224,7 +224,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test validate valid signature from http header", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 27
+#line 30
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -234,13 +234,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 28
+#line 31
     await testRunner.GivenAsync("Callback setup valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 29
+#line 32
     await testRunner.WhenAsync("Callback is sent for valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 30
+#line 33
     await testRunner.ThenAsync("No exception is thrown for valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -255,7 +255,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test validate not valid signature from http header", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 32
+#line 35
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -265,13 +265,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 33
+#line 36
     await testRunner.GivenAsync("Callback setup not valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 34
+#line 37
     await testRunner.WhenAsync("Callback is sent for not valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 35
+#line 38
     await testRunner.ThenAsync("Throw exception is thrown for not valid signature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

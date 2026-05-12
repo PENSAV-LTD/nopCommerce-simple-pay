@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Nop.Core;
+using Nop.Core.Domain.Orders;
+using Nop.Core.Domain.Payments;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Services;
@@ -53,6 +55,10 @@ internal class DependecyRegistrar
         SetupOrderService(mockOrderService, mockProductService);
         services.AddSingleton(mockOrderService.Object);
         services.AddSingleton(mockProductService.Object);
+
+        var mockOrderProcessingService = new Mock<IOrderProcessingService>();
+        SetupOrderPrecessingService(mockOrderProcessingService);
+        services.AddSingleton(mockOrderProcessingService.Object);
 
         var mockResponseService = new Mock<IResponseService>();
         var mockCustomerService = new Mock<ICustomerService>();
@@ -115,6 +121,16 @@ internal class DependecyRegistrar
         services.AddSingleton<ILocalizationService>(mockLocalizationService.Object);
         var mockWebHelper = new Mock<IWebHelper>();
         services.AddSingleton<IWebHelper>(mockWebHelper.Object);
+    }
+
+    private static void SetupOrderPrecessingService(Mock<IOrderProcessingService> mockOrderProcessingService)
+    {
+        mockOrderProcessingService
+            .Setup(x => x.MarkOrderAsPaidAsync(It.IsAny<Order>()))
+            .Callback(() => {
+                OrderProvider.Order.PaymentStatus = PaymentStatus.Paid;
+            })
+            .Returns(Task.CompletedTask);
     }
 
     private static void SetupOrderService(Mock<IOrderService> mockOrderService, Mock<IProductService> mockProductService)

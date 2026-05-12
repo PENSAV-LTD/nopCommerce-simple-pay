@@ -1,4 +1,7 @@
 Feature: Simple Pay Callback's tests
+
+Simple Pay Callback's tests.
+
 # Test Success callback
 Scenario: Test Success callback
     Given Callback setup for success response

@@ -26,21 +26,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay Ipn request\'s tests", @"/*
-Test accept Ipn
-
-Example
-{
-""salt"":""223G0O18VAqdLhQYbJz73adT36YzLtak"",
-""orderRef"":""101010515680292482600"",
-""method"":""CARD"",
-""merchant"":""PUBLICTESTHUF"",
-""finishDate"":""2019-09-09T14:46:18+0200"",
-""paymentDate"":""2019-09-09T14:41:13+0200"",
-""transactionId"":99844942,
-""status"":""FINISHED""
-}
-*/", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay Ipn request\'s tests", "Simple Pay Ipn request call.", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -104,6 +90,195 @@ Example
         async System.Threading.Tasks.Task Xunit.IAsyncLifetime.DisposeAsync()
         {
             await this.TestTearDownAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Validate Ipn request")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Validate Ipn request")]
+        public async System.Threading.Tasks.Task ValidateIpnRequest()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate Ipn request", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 5
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+    await testRunner.GivenAsync("IpnRequest setup for Validate", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 7
+    await testRunner.WhenAsync("IpnRequest is sent for Validate", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 8
+    await testRunner.ThenAsync("Response is Validate", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Finished Ipn request")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Finished Ipn request")]
+        public async System.Threading.Tasks.Task FinishedIpnRequest()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Finished Ipn request", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 10
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 11
+    await testRunner.GivenAsync("IpnRequest setup for Finished", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 12
+    await testRunner.WhenAsync("IpnRequest is sent for Finished", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 13
+    await testRunner.ThenAsync("Response is Finished", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 14
+    await testRunner.AndAsync("Order set as payed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Authorized Ipn request")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Authorized Ipn request")]
+        public async System.Threading.Tasks.Task AuthorizedIpnRequest()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Authorized Ipn request", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 16
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 17
+    await testRunner.GivenAsync("IpnRequest setup for Authorized", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 18
+    await testRunner.WhenAsync("IpnRequest is sent for Authorized", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 19
+    await testRunner.ThenAsync("Response is Authorized", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Reversed Ipn request")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Reversed Ipn request")]
+        public async System.Threading.Tasks.Task ReversedIpnRequest()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Reversed Ipn request", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 21
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 22
+    await testRunner.GivenAsync("IpnRequest setup for Reversed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 23
+    await testRunner.WhenAsync("IpnRequest is sent for Reversed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 24
+    await testRunner.ThenAsync("Response is Reversed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Cancelled Ipn request")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Cancelled Ipn request")]
+        public async System.Threading.Tasks.Task CancelledIpnRequest()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Cancelled Ipn request", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 26
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 27
+    await testRunner.GivenAsync("IpnRequest setup for Cancelled", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 28
+    await testRunner.WhenAsync("IpnRequest is sent for Cancelled", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 29
+    await testRunner.ThenAsync("Response is Cancelled", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Timeout Ipn request")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn request\'s tests")]
+        [Xunit.TraitAttribute("Description", "Timeout Ipn request")]
+        public async System.Threading.Tasks.Task TimeoutIpnRequest()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Timeout Ipn request", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 31
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 32
+    await testRunner.GivenAsync("IpnRequest setup for Timeout", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 33
+    await testRunner.WhenAsync("IpnRequest is sent for Timeout", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 34
+    await testRunner.ThenAsync("Response is Timeout", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]

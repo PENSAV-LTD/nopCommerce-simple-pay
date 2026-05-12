@@ -1,9 +1,9 @@
-﻿namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
-public class IpnResponse : BaseModel
+﻿using System.Text.Json.Serialization;
+using Nop.Plugin.Payments.SimplePay.Models.Requests;
+
+namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
+public class IpnResponse : IpnRequest
 {
-    public PaymentMethods Method { get; set; }
-    public DateTime FinishDate { get; set; }
-    public DateTime PaymentDate { get; set; }
-    public string TransactionId { get; set; }
-    public string Status { get; set; }
+    [JsonPropertyName("receiveDate")]
+    public DateTime ReceiveDate { get; set; }
 }
