@@ -45,7 +45,7 @@ public class SimplePayIpnRequestsTestsStepDefinitions
     [Then("Response is Validate")]
     public void ThenResponseIsValidate()
     {
-        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult().Should().Be("OK");
+        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult();
     }
 
     [Given("IpnRequest setup for Finished")]
@@ -63,7 +63,7 @@ public class SimplePayIpnRequestsTestsStepDefinitions
     [Then("Response is Finished")]
     public void ThenResponseIsFinished()
     {
-        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult().Should().Be("OK");
+        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult();
     }
 
     [Then("Order set as payed")]

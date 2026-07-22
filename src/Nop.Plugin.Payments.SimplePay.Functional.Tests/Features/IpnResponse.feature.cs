@@ -26,23 +26,7 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay Ipn response\'s tests", @"/*
-Test send response for Ipn
-Test validate signature from http header
-
-Example
-{
-""salt"":""223G0O18VAqdLhQYbJz73adT36YzLtak"",
-""orderRef"":""101010515680292482600"",
-""method"":""CARD"",
-""merchant"":""PUBLICTESTHUF"",
-""finishDate"":""2019-09-09T14:46:18+0200"",
-""paymentDate"":""2019-09-09T14:41:13+0200"",
-""transactionId"":99844942,
-""status"":""FINISHED"",
-""receiveDate"":""2019-09-09T14:46:20+0200""
-}
-*/", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Simple Pay Ipn response\'s tests", "Simple Pay Ipn response call.", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -106,6 +90,62 @@ Example
         async System.Threading.Tasks.Task Xunit.IAsyncLifetime.DisposeAsync()
         {
             await this.TestTearDownAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Send response for Ipn request that contains ReceiveDate")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn response\'s tests")]
+        [Xunit.TraitAttribute("Description", "Send response for Ipn request that contains ReceiveDate")]
+        public async System.Threading.Tasks.Task SendResponseForIpnRequestThatContainsReceiveDate()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Send response for Ipn request that contains ReceiveDate", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 5
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+    await testRunner.GivenAsync("IpnRequest setup for Finished", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 7
+    await testRunner.ThenAsync("Response\'s string contains ReceiveDate", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Validate signature in Response\'s HTTP header")]
+        [Xunit.TraitAttribute("FeatureTitle", "Simple Pay Ipn response\'s tests")]
+        [Xunit.TraitAttribute("Description", "Validate signature in Response\'s HTTP header")]
+        public async System.Threading.Tasks.Task ValidateSignatureInResponsesHTTPHeader()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate signature in Response\'s HTTP header", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 9
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 10
+    await testRunner.GivenAsync("IpnRequest setup for Finished", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 11
+    await testRunner.ThenAsync("Response contains valid signature in HTTP header", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]

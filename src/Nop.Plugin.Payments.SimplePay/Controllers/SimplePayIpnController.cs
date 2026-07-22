@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel.Channels;
-using System.Text;
+﻿using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Nop.Plugin.Payments.SimplePay.Exceptions;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
@@ -42,14 +38,25 @@ public class SimplePayIpnController : BasePublicController
             throw new SimplePayInvalidSignatureException();
         }
 
-        var message = JsonSerializer.Deserialize<IpnRequest>(jsonString);
-        if (!int.TryParse(message.OrderRef, out var orderId))
+        var request = JsonSerializer.Deserialize<IpnRequest>(jsonString);
+        if (!int.TryParse(request.OrderRef, out var orderId))
         {
             throw new SimplePayInvalidOrderRefException();
         }
         var order = await _orderService.GetOrderByIdAsync(orderId);
         await _orderProcessingService.MarkOrderAsPaidAsync(order);
-        return "OK";
+
+        var response = SetResponseMessageAndHeader(request);
+        return response;
+    }
+
+    private string SetResponseMessageAndHeader(IpnRequest message)
+    {
+        var response = new IpnResponse(message, DateTime.Now);
+        var responseJson = JsonSerializer.Serialize(response);
+        var calculateResponseSignature = _messageToSendValidator.CalculateSignature(_simplePaySettings.MerchantKey, responseJson);
+        Response.Headers.Append("Signature", calculateResponseSignature);
+        return responseJson;
     }
 
     private bool ValidateSignature(string message)
