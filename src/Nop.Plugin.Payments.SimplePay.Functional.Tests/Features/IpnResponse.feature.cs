@@ -111,7 +111,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 await this.ScenarioStartAsync();
 #line 6
-    await testRunner.GivenAsync("IpnRequest setup for Finished", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("Setup IpnRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 7
     await testRunner.ThenAsync("Response\'s string contains ReceiveDate", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -139,7 +139,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 await this.ScenarioStartAsync();
 #line 10
-    await testRunner.GivenAsync("IpnRequest setup for Finished", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("Setup IpnRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 11
     await testRunner.ThenAsync("Response contains valid signature in HTTP header", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

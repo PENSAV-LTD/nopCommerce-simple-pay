@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Nop.Plugin.Payments.SimplePay.Exceptions;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
+using Nop.Plugin.Payments.SimplePay.Models;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Models.Responses;
 using Nop.Plugin.Payments.SimplePay.Settings;
@@ -43,8 +43,11 @@ public class SimplePayIpnController : BasePublicController
         {
             throw new SimplePayInvalidOrderRefException();
         }
-        var order = await _orderService.GetOrderByIdAsync(orderId);
-        await _orderProcessingService.MarkOrderAsPaidAsync(order);
+        if (request.Status == IpnStatuses.FINISHED)
+        {
+            var order = await _orderService.GetOrderByIdAsync(orderId);
+            await _orderProcessingService.MarkOrderAsPaidAsync(order);
+        }
 
         var response = SetResponseMessageAndHeader(request);
         return response;

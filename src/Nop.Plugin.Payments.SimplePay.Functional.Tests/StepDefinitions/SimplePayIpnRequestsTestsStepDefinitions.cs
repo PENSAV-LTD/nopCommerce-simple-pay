@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Nop.Plugin.Payments.SimplePay.Controllers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Drivers;
 using Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
+using Nop.Plugin.Payments.SimplePay.Models;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Services.Orders;
-using Reqnroll;
 
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions;
 
@@ -33,7 +32,7 @@ public class SimplePayIpnRequestsTestsStepDefinitions
     [Given("IpnRequest setup for Validate")]
     public void GivenIpnRequestSetupForValidate()
     {
-        SetupSignatureAndJsonWithStatus("FINISHED");
+        SetupSignatureAndJsonWithStatus(IpnStatuses.FINISHED);
     }
 
     [When("IpnRequest is sent for Validate")]
@@ -51,7 +50,7 @@ public class SimplePayIpnRequestsTestsStepDefinitions
     [Given("IpnRequest setup for Finished")]
     public void GivenIpnRequestSetupForFinished()
     {
-        SetupSignatureAndJsonWithStatus("FINISHED");
+        SetupSignatureAndJsonWithStatus(IpnStatuses.FINISHED);
     }
 
     [When("IpnRequest is sent for Finished")]
@@ -75,73 +74,73 @@ public class SimplePayIpnRequestsTestsStepDefinitions
     [Given("IpnRequest setup for Authorized")]
     public void GivenIpnRequestSetupForAuthorized()
     {
-        throw new PendingStepException();
+        SetupSignatureAndJsonWithStatus(IpnStatuses.AUTHORIZED);
     }
 
     [When("IpnRequest is sent for Authorized")]
     public void WhenIpnRequestIsSentForAuthorized()
     {
-        throw new PendingStepException();
+        SetupHttpContextWithSignatureHeader(_signature);
     }
 
     [Then("Response is Authorized")]
     public void ThenResponseIsAuthorized()
     {
-        throw new PendingStepException();
+        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult();
     }
 
     [Given("IpnRequest setup for Reversed")]
     public void GivenIpnRequestSetupForReversed()
     {
-        throw new PendingStepException();
+        SetupSignatureAndJsonWithStatus(IpnStatuses.REVERSED);
     }
 
     [When("IpnRequest is sent for Reversed")]
     public void WhenIpnRequestIsSentForReversed()
     {
-        throw new PendingStepException();
+        SetupHttpContextWithSignatureHeader(_signature);
     }
 
     [Then("Response is Reversed")]
     public void ThenResponseIsReversed()
     {
-        throw new PendingStepException();
+        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult();
     }
 
     [Given("IpnRequest setup for Cancelled")]
     public void GivenIpnRequestSetupForCancelled()
     {
-        throw new PendingStepException();
+        SetupSignatureAndJsonWithStatus(IpnStatuses.CANCELED);
     }
 
     [When("IpnRequest is sent for Cancelled")]
     public void WhenIpnRequestIsSentForCancelled()
     {
-        throw new PendingStepException();
+        SetupHttpContextWithSignatureHeader(_signature);
     }
 
     [Then("Response is Cancelled")]
     public void ThenResponseIsCancelled()
     {
-        throw new PendingStepException();
+        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult();
     }
 
     [Given("IpnRequest setup for Timeout")]
     public void GivenIpnRequestSetupForTimeout()
     {
-        throw new PendingStepException();
+        SetupSignatureAndJsonWithStatus(IpnStatuses.TIMEOUT);
     }
 
     [When("IpnRequest is sent for Timeout")]
     public void WhenIpnRequestIsSentForTimeout()
     {
-        throw new PendingStepException();
+        SetupHttpContextWithSignatureHeader(_signature);
     }
 
     [Then("Response is Timeout")]
     public void ThenResponseIsTimeout()
     {
-        throw new PendingStepException();
+        _simplePayIpnController.Ipn(_jsonString).GetAwaiter().GetResult();
     }
 
     private void SetupSignatureAndJsonWithStatus(string status)

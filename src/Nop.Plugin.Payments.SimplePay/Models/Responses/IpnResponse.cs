@@ -4,6 +4,9 @@ using Nop.Plugin.Payments.SimplePay.Models.Requests;
 namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
 public class IpnResponse : IpnRequest
 {
+    [JsonConstructor]
+    private IpnResponse() { }
+
     public IpnResponse(IpnRequest request, DateTime receiveDate)
     {
         // Copy properties from the request

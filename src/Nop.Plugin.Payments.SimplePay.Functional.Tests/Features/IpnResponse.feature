@@ -3,11 +3,11 @@ Feature: Simple Pay Ipn response's tests
 Simple Pay Ipn response call.
 
 Scenario: Send response for Ipn request that contains ReceiveDate
-    Given IpnRequest setup for Finished
+    Given Setup IpnRequest
     Then Response's string contains ReceiveDate
 
 Scenario: Validate signature in Response's HTTP header
-    Given IpnRequest setup for Finished
+    Given Setup IpnRequest
     Then Response contains valid signature in HTTP header
 
 
