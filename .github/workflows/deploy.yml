@@ -1,44 +1,45 @@
-name: Deploy to AWS
+name: Build NopCommerce Plugin
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
-# Required for OIDC token generation
 permissions:
   id-token: write
   contents: read
 
-env:
-  AWS_REGION: eu-central-1 # Set your AWS region
-
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials via OIDC
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::816262171726:role/github-pensav-access
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: eu-central-1
 
-      - name: Verify AWS Connection
-        run: aws sts get-caller-identity
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-      # Example 1: Trigger an AWS CodeBuild Project
-      - name: Start AWS CodeBuild
+      - name: Restore packages
+        run: dotnet restore src/MyPlugin/MyPlugin.csproj
+
+      - name: Build plugin
+        run: dotnet build src/MyPlugin/MyPlugin.csproj -c Release
+
+      - name: Run tests
+        run: dotnet test tests/MyPlugin.Tests/MyPlugin.Tests.csproj
+
+      - name: Package plugin
         run: |
-          aws codebuild start-build --project-name my-build-project
+          mkdir output
+          cp -r src/MyPlugin/bin/Release/net8.0 output/
+          zip -r MyPlugin.zip output/
 
-      # Example 2: Push Docker Image to AWS ECR
-      # - name: Log in to Amazon ECR
-      #   uses: aws-actions/amazon-ecr-login@v2
-      #
-      # - name: Build, tag, and push image to ECR
-      #   run: |
-      #     docker build -t my-app .
-      #     docker tag my-app:latest <ACCOUNT_ID>.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/my-app:latest
-      #     docker push <ACCOUNT_ID>.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/my-app:latest
+      - name: Upload to S3
+        run: aws s3 cp MyPlugin.zip s3://my-nopcommerce-artifacts/plugins/
