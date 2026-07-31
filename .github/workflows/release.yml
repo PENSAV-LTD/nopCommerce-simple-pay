@@ -46,6 +46,11 @@ jobs:
                 package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/
           cd package
           zip -r ../Nop.Plugin.Payments.SimplePay.zip .
+          
+      - name: Validate plugin ZIP structure
+        run: |
+          chmod +x scripts/validate-zip.sh
+          ./scripts/validate-zip.sh
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
