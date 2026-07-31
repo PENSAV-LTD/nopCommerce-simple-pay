@@ -1,97 +1,41 @@
-﻿namespace Nop.Plugin.Payments.SimplePay
+﻿using Nop.Core;
+using Nop.Plugin.Payments.SimplePay.Settings;
+using Nop.Services.Configuration;
+using Nop.Services.Localization;
+using Nop.Services.Plugins;
+
+namespace Nop.Plugin.Payments.SimplePay
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
-    using Nop.Core.Domain.Orders;
-    using Nop.Services.Payments;
-    using Nop.Services.Plugins;
-
-    public class SimplePayPaymentModule : BasePlugin, IPaymentMethod
+    public class SimplePayPaymentModule : BasePlugin
     {
-        public bool SupportCapture => throw new NotImplementedException();
+        private readonly ISettingService _settingService;
+        protected readonly ILocalizationService _localizationService;
+        protected readonly IWebHelper _webHelper;
 
-        public bool SupportPartiallyRefund => throw new NotImplementedException();
-
-        public bool SupportRefund => throw new NotImplementedException();
-
-        public bool SupportVoid => throw new NotImplementedException();
-
-        public RecurringPaymentType RecurringPaymentType => throw new NotImplementedException();
-
-        public PaymentMethodType PaymentMethodType => throw new NotImplementedException();
-
-        public bool SkipPaymentInfo => throw new NotImplementedException();
-
-        public Task<CancelRecurringPaymentResult> CancelRecurringPaymentAsync(CancelRecurringPaymentRequest cancelPaymentRequest)
+        public override string GetConfigurationPageUrl()
         {
-            throw new NotImplementedException();
+            return $"{_webHelper.GetStoreLocation()}Admin/SimplePayConfiguration/Configure";
         }
 
-        public Task<bool> CanRePostProcessPaymentAsync(Order order)
+        public override async Task InstallAsync()
         {
-            throw new NotImplementedException();
+            await _settingService.SaveSettingAsync(new SimplePaySettings());
+
+            await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
+            {
+            });
+            await base.InstallAsync();
         }
 
-        public Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
+        public SimplePayPaymentModule(
+            ISettingService settingService,
+            ILocalizationService localizationService,
+            IWebHelper webHelper
+            )
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetPaymentMethodDescriptionAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Type GetPublicViewComponent()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> HidePaymentMethodAsync(IList<ShoppingCartItem> cart)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ProcessPaymentResult> ProcessRecurringPaymentAsync(ProcessPaymentRequest processPaymentRequest)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<RefundPaymentResult> RefundAsync(RefundPaymentRequest refundPaymentRequest)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<VoidPaymentResult> VoidAsync(VoidPaymentRequest voidPaymentRequest)
-        {
-            throw new NotImplementedException();
+            _settingService = settingService;
+            _localizationService = localizationService;
+            _webHelper = webHelper;
         }
     }
 }

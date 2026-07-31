@@ -1,7 +1,17 @@
-﻿using Nop.Plugin.Payments.SimplePay.Models.Responses;
+﻿using System.Text.Json.Serialization;
 
 namespace Nop.Plugin.Payments.SimplePay.Models.Requests;
-internal class IpnRequest : IpnResponse
+public class IpnRequest : BaseModel
 {
-    public DateTime ReceiveDate { get; set; }
+    [JsonPropertyName("method")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public PaymentMethods Method { get; set; }
+    [JsonPropertyName("finishDate")]
+    public DateTime FinishDate { get; set; }
+    [JsonPropertyName("paymentDate")]
+    public DateTime PaymentDate { get; set; }
+    [JsonPropertyName("transactionId")]
+    public long TransactionId { get; set; }
+    [JsonPropertyName("status")]
+    public string Status { get; set; }
 }

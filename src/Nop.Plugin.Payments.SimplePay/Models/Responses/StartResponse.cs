@@ -1,6 +1,10 @@
-﻿namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
-internal class StartResponse : StartBase
+﻿using System.Text.Json.Serialization;
+
+namespace Nop.Plugin.Payments.SimplePay.Models.Responses;
+public class StartResponse : TotalAndTimeoutBase
 {
-    public string TransactionId { get; set; }
+    [JsonPropertyName("transactionId")]
+    public int TransactionId { get; set; }
+    [JsonPropertyName("paymentUrl")]
     public string PaymentUrl { get; set; }
 }

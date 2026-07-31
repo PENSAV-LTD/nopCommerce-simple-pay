@@ -1,5 +1,5 @@
 ﻿namespace Nop.Plugin.Payments.SimplePay.Models.Requests;
-internal class StartRequest : StartBase
+public class StartRequest : TotalAndTimeoutBase
 {
     public string CustomerEmail { get; set; }
     public string Language { get; set; }
@@ -10,7 +10,7 @@ internal class StartRequest : StartBase
     public InvoiceDetail Invoice { get; set; }
     public bool MaySelectEmail { get; set; }
     public bool MaySelectInvoice { get; set; }
-    public List<Item> Items { get; set; }
+    public List<StartRequestItem> Items { get; set; }
     public int ShippingCost { get; set; }
     public int Discount { get; set; }
     public string Customer { get; set; }

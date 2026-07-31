@@ -1,0 +1,33 @@
+@model Nop.Plugin.Payments.SimplePay.Models.PaymentViewModel;
+
+@{
+    Layout = "";
+}
+<section class="checkout-page simplepay-payment-info-page">
+    <p>
+        Tudomásul veszem, hogy a(z)
+        <span class="simplepay-payment-info store-name">@Model.CurrentStore.CompanyName</span>
+        (<span class="simplepay-payment-info store-address">@Model.CurrentStore.CompanyAddress</span>)
+        adatkezelõ által a(z)
+        <span class="simplepay-payment-info store-url">@Model.CurrentStore.Url</span>
+        felhasználói adatbázisában tárolt alábbi személyes adataim átadásra kerülnek
+        az OTP Mobil Kft. (1093 Budapest, Közraktár u. 30-32.), mint adatfeldolgozó részére.
+    </p>
+    <div>
+        <p>
+            Az adatkezelõ által továbbított adatok köre az alábbi:
+        </p>
+        <ul>
+            <li><span class="simplepay-payment-info customer-data">Email cím</span></li>
+        </ul>
+    </div>
+    <p>
+        Az adatfeldolgozó által végzett adatfeldolgozási tevékenység jellege és célja a SimplePay Adatkezelési
+        tájékoztatóban, az alábbi linken tekinthetõ meg: <a target="_blank" href="http://simplepay.hu/vasarlo-aff">http://simplepay.hu/vasarlo-aff</a>
+    </p>
+</section>
+<section>
+    <p>
+        Fizetés folytatása <a href="@Model.PaymentUrl" class="btn btn-primary">Fizetés</a>
+    </p>
+</section>
