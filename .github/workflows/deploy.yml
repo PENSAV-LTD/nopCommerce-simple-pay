@@ -1,0 +1,44 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches: [ "main" ]
+
+# Required for OIDC token generation
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-central-1 # Set your AWS region
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::816262171726:role/github-pensav-access
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Verify AWS Connection
+        run: aws sts get-caller-identity
+
+      # Example 1: Trigger an AWS CodeBuild Project
+      - name: Start AWS CodeBuild
+        run: |
+          aws codebuild start-build --project-name my-build-project
+
+      # Example 2: Push Docker Image to AWS ECR
+      # - name: Log in to Amazon ECR
+      #   uses: aws-actions/amazon-ecr-login@v2
+      #
+      # - name: Build, tag, and push image to ECR
+      #   run: |
+      #     docker build -t my-app .
+      #     docker tag my-app:latest <ACCOUNT_ID>.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/my-app:latest
+      #     docker push <ACCOUNT_ID>.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/my-app:latest
