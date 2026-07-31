@@ -29,9 +29,8 @@ jobs:
 
       - name: Copy plugin into nopCommerce
         run: |
-          mkdir -p nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay
-          cp -r src/Nop.Plugin.Payments.SimplePay/* \
-                nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/
+          cp -r src/Nop.Plugin.Payments.SimplePay \
+                nopCommerce/src/Plugins/
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
