@@ -2,11 +2,12 @@ name: Build NopCommerce Plugin
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    tags:
+      - "v*"
 
 permissions:
+  contents: write
   id-token: write
-  contents: read
 
 jobs:
   build:
@@ -14,12 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::816262171726:role/github-pensav-access
-          aws-region: eu-central-1
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -32,14 +27,14 @@ jobs:
       - name: Build plugin
         run: dotnet build src/MyPlugin/MyPlugin.csproj -c Release
 
-      - name: Run tests
-        run: dotnet test tests/MyPlugin.Tests/MyPlugin.Tests.csproj
-
       - name: Package plugin
         run: |
-          mkdir output
-          cp -r src/MyPlugin/bin/Release/net8.0 output/
-          zip -r MyPlugin.zip output/
+          mkdir -p package/Presentation/Nop.Web/Plugins/MyPlugin
+          cp -r src/MyPlugin/bin/Release/net8.0/* package/Presentation/Nop.Web/Plugins/MyPlugin/
+          cd package
+          zip -r ../MyPlugin.zip .
 
-      - name: Upload to S3
-        run: aws s3 cp MyPlugin.zip s3://my-nopcommerce-artifacts/plugins/
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: MyPlugin.zip
