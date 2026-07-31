@@ -40,7 +40,7 @@ jobs:
 
       - name: Restore & Build
         run: |
-          cd nopCommerce/src/Nop.Web
+          cd nopCommerce/src/Presentation/Nop.Web
           dotnet restore
           dotnet build -c Release
 
