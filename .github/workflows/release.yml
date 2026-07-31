@@ -40,7 +40,7 @@ jobs:
 
       - name: Restore & Build
         run: |
-          cd nopCommerce/src/Presentation/Nop.Web
+          cd nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay
           dotnet restore
           dotnet build -c Release
 
