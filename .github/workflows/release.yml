@@ -1,0 +1,53 @@
+name: Build NopCommerce SimplePay Plugin
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout plugin repo
+        uses: actions/checkout@v4
+
+      - name: Clone NopCommerce (release-4.90)
+        run: |
+          git clone https://github.com/nopSolutions/nopCommerce.git
+          cd nopCommerce
+          git checkout release-4.90
+
+      - name: Copy plugin into NopCommerce
+        run: |
+          mkdir -p nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay
+          cp -r src/Nop.Plugin.Payments.SimplePay/* \
+                nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore & Build
+        run: |
+          cd nopCommerce/src/Nop.Web
+          dotnet restore
+          dotnet build -c Release
+
+      - name: Package plugin
+        run: |
+          mkdir -p package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay
+          cp -r nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/* \
+                package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/
+          cd package
+          zip -r ../Nop.Plugin.Payments.SimplePay.zip .
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Nop.Plugin.Payments.SimplePay.zip
