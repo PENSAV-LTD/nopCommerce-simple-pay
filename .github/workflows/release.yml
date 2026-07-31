@@ -1,0 +1,63 @@
+name: Build NopCommerce SimplePay Plugin
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout plugin repo
+        uses: actions/checkout@v4
+
+      - name: Clone nopCommerce master
+        run: |
+          git clone https://github.com/nopSolutions/nopCommerce.git
+          cd nopCommerce
+          git checkout master
+          git fetch --tags
+          # Checkout the latest stable tag (e.g., release-4.90.6)
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "Using nopCommerce tag: $LATEST_TAG"
+          git checkout "$LATEST_TAG"
+
+      - name: Copy plugin into nopCommerce
+        run: |
+          mkdir -p nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay
+          cp -r src/Nop.Plugin.Payments.SimplePay/* \
+                nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore & Build
+        run: |
+          cd nopCommerce/src/Nop.Web
+          dotnet restore
+          dotnet build -c Release
+
+      - name: Package plugin
+        run: |
+          mkdir -p package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay
+          cp -r nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/* \
+                package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/
+          cd package
+          zip -r ../Nop.Plugin.Payments.SimplePay.zip .
+
+      - name: Validate plugin ZIP structure
+        run: |
+          chmod +x scripts/validate-zip.sh
+          ./scripts/validate-zip.sh
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Nop.Plugin.Payments.SimplePay.zip
