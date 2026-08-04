@@ -29,21 +29,11 @@ jobs:
 
       - name: Copy plugin into nopCommerce
         run: |
-          # Support different repository layouts: try common locations where the plugin source may live
-          if [ -d "src/Plugins/Nop.Plugin.Payments.SimplePay" ]; then
-            SRC_DIR="src/Plugins/Nop.Plugin.Payments.SimplePay"
-          elif [ -d "src/Nop.Plugin.Payments.SimplePay" ]; then
-            SRC_DIR="src/Nop.Plugin.Payments.SimplePay"
-          elif [ -d "Nop.Plugin.Payments.SimplePay" ]; then
-            SRC_DIR="Nop.Plugin.Payments.SimplePay"
-          else
-            echo "Plugin source directory not found"
-            ls -la
-            exit 1
-          fi
-
-          echo "Copying plugin from $SRC_DIR to nopCommerce/src/Plugins/"
-          cp -r "$SRC_DIR" nopCommerce/src/Plugins/
+          SRC_DIR="src"
+          echo "Making directory nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src"
+          mkdir -p nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
+          echo "Copying plugin from $SRC_DIR to nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src"
+          cp -r "$SRC_DIR" nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -53,7 +43,7 @@ jobs:
 
       - name: Restore & Build
         run: |
-          cd nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay
+          cd nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src/Nop.Plugin.Payments.SimplePay
           dotnet restore
           dotnet build -c Release
 
