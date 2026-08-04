@@ -34,6 +34,7 @@ jobs:
           mkdir -p nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
           echo "Copying plugin from $SRC_DIR to nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src"
           cp -r "$SRC_DIR" nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
+          ls -lR nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
