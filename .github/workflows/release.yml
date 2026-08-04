@@ -29,27 +29,51 @@ jobs:
 
       - name: Copy plugin into nopCommerce
         run: |
-          cp -r src/Nop.Plugin.Payments.SimplePay \
-                nopCommerce/src/Plugins/
+          # Support different repository layouts: try common locations where the plugin source may live
+          if [ -d "src/Plugins/Nop.Plugin.Payments.SimplePay" ]; then
+            SRC_DIR="src/Plugins/Nop.Plugin.Payments.SimplePay"
+          elif [ -d "src/Nop.Plugin.Payments.SimplePay" ]; then
+            SRC_DIR="src/Nop.Plugin.Payments.SimplePay"
+          elif [ -d "Nop.Plugin.Payments.SimplePay" ]; then
+            SRC_DIR="Nop.Plugin.Payments.SimplePay"
+          else
+            echo "Plugin source directory not found"
+            ls -la
+            exit 1
+          fi
+
+          echo "Copying plugin from $SRC_DIR to nopCommerce/src/Plugins/"
+          cp -r "$SRC_DIR" nopCommerce/src/Plugins/
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          # nopCommerce in this workspace targets .NET 9
+          dotnet-version: '9.0.x'
 
       - name: Restore & Build
         run: |
-          cd nopCommerce/src
+          cd nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay
           dotnet restore
           dotnet build -c Release
 
       - name: Package plugin
         run: |
-          mkdir -p package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay
-          cp -r nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/* \
-                package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/
+          # Create package layout and copy plugin files from the nopCommerce clone
+          mkdir -p package
+
+          if [ -d "nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay" ]; then
+            mkdir -p package/Plugins/Nop.Plugin.Payments.SimplePay
+            cp -r nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/* package/Plugins/Nop.Plugin.Payments.SimplePay/
+          fi
+
+          if [ -d "nopCommerce/src/Presentation/Nop.Web/Plugins/Payments.SimplePay" ]; then
+            mkdir -p package/Presentation/Nop.Web/Plugins/Payments.SimplePay
+            cp -r nopCommerce/src/Presentation/Nop.Web/Plugins/Payments.SimplePay/* package/Presentation/Nop.Web/Plugins/Payments.SimplePay/
+          fi
+
           cd package
-          zip -r ../Nop.Plugin.Payments.SimplePay.zip .
+          zip -r ../Payments.SimplePay.zip .
 
       - name: Validate plugin ZIP structure
         run: |
@@ -59,4 +83,4 @@ jobs:
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
-          files: Nop.Plugin.Payments.SimplePay.zip
+          files: Payments.SimplePay.zip
