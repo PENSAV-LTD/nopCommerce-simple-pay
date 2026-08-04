@@ -2,8 +2,9 @@
 set -e
 
 PLUGIN_NAME="Nop.Plugin.Payments.SimplePay"
+PLUGIN_DIR_NAME="Payments.SimplePay"
 ROOT="validate"
-ZIP_FILE="Nop.Plugin.Payments.SimplePay.zip"
+ZIP_FILE="Payments.SimplePay.zip"
 
 echo "Validating plugin ZIP structure..."
 
@@ -11,12 +12,12 @@ echo "Validating plugin ZIP structure..."
 mkdir -p "$ROOT"
 unzip -q "$ZIP_FILE" -d "$ROOT"
 
-PLUGIN_PATH="$ROOT/Presentation/Nop.Web/Plugins/$PLUGIN_NAME"
+PLUGIN_PATH="$ROOT/Presentation/Nop.Web/Plugins/$PLUGIN_DIR_NAME"
 
 # Check folder exists
 if [ ! -d "$PLUGIN_PATH" ]; then
   echo "❌ ERROR: Plugin folder not found at:"
-  echo "   Presentation/Nop.Web/Plugins/$PLUGIN_NAME"
+  echo "   Presentation/Nop.Web/Plugins/$PLUGIN_DIR_NAME"
   exit 1
 fi
 

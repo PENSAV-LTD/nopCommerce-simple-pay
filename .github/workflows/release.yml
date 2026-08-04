@@ -29,27 +29,36 @@ jobs:
 
       - name: Copy plugin into nopCommerce
         run: |
-          cp -r src/Nop.Plugin.Payments.SimplePay \
-                nopCommerce/src/Plugins/
+          SRC_DIR="src"
+          echo "Making directory nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src"
+          mkdir -p nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
+          echo "Copying plugin from $SRC_DIR to nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src"
+          cp -r "$SRC_DIR" nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          # nopCommerce in this workspace targets .NET 9
+          dotnet-version: '9.0.x'
 
       - name: Restore & Build
         run: |
-          cd nopCommerce/src
+          cd nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src/Nop.Plugin.Payments.SimplePay
           dotnet restore
           dotnet build -c Release
 
       - name: Package plugin
         run: |
-          mkdir -p package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay
-          cp -r nopCommerce/src/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/* \
-                package/Presentation/Nop.Web/Plugins/Nop.Plugin.Payments.SimplePay/
+          # Create package layout and copy plugin files from the nopCommerce clone
+          mkdir -p package
+
+          if [ -d "nopCommerce/src/Presentation/Nop.Web/Plugins/Payments.SimplePay" ]; then
+            mkdir -p package/Presentation/Nop.Web/Plugins/Payments.SimplePay
+            cp -r nopCommerce/src/Presentation/Nop.Web/Plugins/Payments.SimplePay/* package/Presentation/Nop.Web/Plugins/Payments.SimplePay/
+          fi
+
           cd package
-          zip -r ../Nop.Plugin.Payments.SimplePay.zip .
+          zip -r ../Payments.SimplePay.zip .
 
       - name: Validate plugin ZIP structure
         run: |
@@ -59,4 +68,4 @@ jobs:
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
-          files: Nop.Plugin.Payments.SimplePay.zip
+          files: Payments.SimplePay.zip
