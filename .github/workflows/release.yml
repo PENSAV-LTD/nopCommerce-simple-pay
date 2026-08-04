@@ -54,11 +54,6 @@ jobs:
           # Create package layout and copy plugin files from the nopCommerce clone
           mkdir -p package
 
-          if [ -d "nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay" ]; then
-            mkdir -p package/Plugins/Nop.Plugin.Payments.SimplePay
-            cp -r nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/* package/Plugins/Nop.Plugin.Payments.SimplePay/
-          fi
-
           if [ -d "nopCommerce/src/Presentation/Nop.Web/Plugins/Payments.SimplePay" ]; then
             mkdir -p package/Presentation/Nop.Web/Plugins/Payments.SimplePay
             cp -r nopCommerce/src/Presentation/Nop.Web/Plugins/Payments.SimplePay/* package/Presentation/Nop.Web/Plugins/Payments.SimplePay/

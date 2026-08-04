@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-PLUGIN_NAME="Nop.Plugin.Payments.SimplePay"
+PLUGIN_NAME="Payments.SimplePay"
 ROOT="validate"
-ZIP_FILE="Nop.Plugin.Payments.SimplePay.zip"
+ZIP_FILE="Payments.SimplePay.zip"
 
 echo "Validating plugin ZIP structure..."
 
