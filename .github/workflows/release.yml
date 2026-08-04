@@ -26,6 +26,7 @@ jobs:
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           echo "Using nopCommerce tag: $LATEST_TAG"
           git checkout "$LATEST_TAG"
+          ls -lR .
 
       - name: Copy plugin into nopCommerce
         run: |
@@ -33,8 +34,8 @@ jobs:
           echo "Making directory nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src"
           mkdir -p nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
           echo "Copying plugin from $SRC_DIR to nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src"
-          cp -r "$SRC_DIR" nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
-          ls -lR nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay/src
+          cp -r "$SRC_DIR" nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay
+          ls -lR nopCommerce/src/Plugins/Nop.Plugin.Payments.SimplePay
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
