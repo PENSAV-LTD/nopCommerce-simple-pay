@@ -15,6 +15,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     <ItemGroup>
+      <Compile Remove="SimplePayPaymentModule.cs" />
+    </ItemGroup>
+    <ItemGroup>
       <None Remove="plugin.json" />
       <None Remove="Views\_ViewImports.cshtml" />
     </ItemGroup>

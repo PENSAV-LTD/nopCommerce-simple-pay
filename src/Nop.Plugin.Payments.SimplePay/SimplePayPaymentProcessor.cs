@@ -11,17 +11,18 @@ using Nop.Plugin.Payments.SimplePay.Transactions;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Payments;
+using Nop.Services.Plugins;
 
 namespace Nop.Plugin.Payments.SimplePay;
-public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
+public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
 {
-    public bool SupportCapture => true;
+    public bool SupportCapture => false;
 
-    public bool SupportPartiallyRefund => true;
+    public bool SupportPartiallyRefund => false;
 
-    public bool SupportRefund => true;
+    public bool SupportRefund => false;
 
-    public bool SupportVoid => true;
+    public bool SupportVoid => false;
 
     public RecurringPaymentType RecurringPaymentType => RecurringPaymentType.NotSupported;
 
@@ -114,10 +115,28 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         throw new NotImplementedException();
     }
 
+    public override string GetConfigurationPageUrl()
+    {
+        return $"{_webHelper.GetStoreLocation()}Admin/SimplePayConfiguration/Configure";
+    }
+
+    public override async Task InstallAsync()
+    {
+        await _settingService.SaveSettingAsync(new SimplePaySettings());
+
+        await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
+        {
+        });
+        await base.InstallAsync();
+    }
+
     private readonly SimplePaySettings _simplePaySettings;
     private readonly SimplePayStart _simplePayStart;
     private readonly SimplePayStartRequest _simplePayStartRequest;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ISettingService _settingService;
+    protected readonly ILocalizationService _localizationService;
+    protected readonly IWebHelper _webHelper;
 
     public SimplePayPaymentProcessor(
         SimplePaySettings simplePaySettings,
@@ -127,11 +146,13 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         ISettingService settingService, 
         ILocalizationService localizationService,
         IWebHelper webHelper) 
-        : base(settingService, localizationService, webHelper)
     {
         _simplePaySettings = simplePaySettings;
         _simplePayStart = simplePayStart;
         _simplePayStartRequest = simplePayStartRequest;
         _httpContextAccessor = httpContextAccessor;
+        _settingService = settingService;
+        _localizationService = localizationService;
+        _webHelper = webHelper;
     }
 }

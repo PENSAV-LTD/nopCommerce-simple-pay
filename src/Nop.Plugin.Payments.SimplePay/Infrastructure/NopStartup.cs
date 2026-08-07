@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
@@ -25,7 +28,7 @@ internal class NopStartup : INopStartup
         services.AddScoped<SimplePayStartRequest, SimplePayStartRequest>();
         services.AddScoped<SimplePayStart, SimplePayStart>();
         services.AddScoped<ISaltGenerator, SaltGenerator>();
-        services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePayUrls>(ConfigurationKey.Production);
-        services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePaySandboxUrls>(ConfigurationKey.Sandbox);
+        services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePaySandboxUrls>("SANDBOX");
+        services.AddKeyedScoped<ISimplePayUrlsProvider, SimplePayUrls>("PRODUCTION");
     }
 }

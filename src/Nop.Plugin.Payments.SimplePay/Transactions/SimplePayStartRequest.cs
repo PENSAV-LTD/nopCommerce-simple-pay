@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
@@ -36,7 +38,8 @@ public class SimplePayStartRequest
         ICountryService countryService,
         IStateProvinceService stateProvinceService,
         IProductService productService,
-        IUrlHelper urlHelper
+        IUrlHelperFactory urlHelperFactory,
+        IActionContextAccessor actionContextAccessor
         )
     {
         _settings = settings;
@@ -47,7 +50,7 @@ public class SimplePayStartRequest
         _countryService = countryService;
         _stateProvinceService = stateProvinceService;
         _productService = productService;
-        _urlHelper = urlHelper;
+        _urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
     }
     public async Task<StartRequest> CreateStartRequestAsync(Order order)
     {
