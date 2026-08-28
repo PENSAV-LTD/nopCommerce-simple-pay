@@ -19,6 +19,13 @@
     </ItemGroup>
     <ItemGroup>
       <None Remove="plugin.json" />
+      <None Remove="Views\Admin\Configuration\Configure.cshtml" />
+      <None Remove="Views\Callback\Cancel.cshtml" />
+      <None Remove="Views\Callback\Fail.cshtml" />
+      <None Remove="Views\Callback\Success.cshtml" />
+      <None Remove="Views\Callback\Timeout.cshtml" />
+      <None Remove="Views\Components\PaymentInfo.cshtml" />
+      <None Remove="Views\Payment\Payment.cshtml" />
       <None Remove="Views\_ViewImports.cshtml" />
     </ItemGroup>
   
@@ -36,13 +43,30 @@
       <Content Include="plugin.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Views\Admin\Configuration\Configure.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Callback\Cancel.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Callback\Fail.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Callback\Success.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Callback\Timeout.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Components\PaymentInfo.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Payment\Payment.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Views\_ViewImports.cshtml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Views\Components\" />
-      <Folder Include="Views\Payment\" />
     </ItemGroup>
     <!-- This target executes after "Build" target -->
     <Target Name="NopTarget" AfterTargets="Build">

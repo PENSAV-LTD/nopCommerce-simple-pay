@@ -1,0 +1,38 @@
+@model SimplePayConfigurationModel
+
+@{
+    Layout = "_ConfigurePlugin";
+    NopHtml.SetActiveMenuItemSystemName($"{SimplePayDefaults.SystemName} Configuration");
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+@await Component.InvokeAsync(typeof(SettingModeViewComponent))
+
+<form asp-controller="SimplePayConfiguration" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default card-outline card-info" id="pnlOnboarding">
+            <div class="card-header">
+                @T("Plugins.Payments.SimplePay.Onboarding.Title")
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="MerchantKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="MerchantKey" />
+                        <span asp-validation-for="MerchantKey"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <nop-label asp-for="DefaultCurrency" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="DefaultCurrency" />
+                        <span asp-validation-for="DefaultCurrency"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div
+</form>

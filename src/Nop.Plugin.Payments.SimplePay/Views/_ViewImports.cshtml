@@ -1,8 +1,15 @@
 ﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.InputTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, Nop.Web.Framework
 
+@inject INopHtmlHelper NopHtml
+@inject SimplePaySettings settings
+
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using Nop.Plugin.Payments.SimplePay.Settings
+@using Nop.Plugin.Payments.SimplePay.ViewModels
+@using Nop.Plugin.Payments.SimplePay
 @using Nop.Web.Areas.Admin.Components
 @using Nop.Web.Framework.UI
 @using Nop.Web.Framework.Extensions

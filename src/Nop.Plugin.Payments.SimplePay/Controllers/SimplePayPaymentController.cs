@@ -5,7 +5,6 @@ using Nop.Web.Controllers;
 using Nop.Web.Framework;
 
 namespace Nop.Plugin.Payments.SimplePay.Controllers;
-[Area(AreaNames.ADMIN)]
 public class SimplePayPaymentController : BasePublicController
 {
     private readonly IOrderService _orderService;
