@@ -4,29 +4,29 @@ using Nop.Web.Framework.Mvc.ModelBinding;
 namespace Nop.Plugin.Payments.SimplePay.ViewModels;
 public class SimplePayConfigurationModel
 {
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.MerchantKey")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_MERCHANT_KEY)]
     public string MerchantKey { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.DefaultCurrency")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_DEFAULT_CURRENCY)]
     [DataType(DataType.Currency)]
     public string DefaultCurrency { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.IsDefaultCurrencyUsed")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_IS_DEFAULT_CURRENCY_USED)]
     public bool IsDefaultCurrencyUsed { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.IsTwoStep")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_IS_TWO_STEP)]
     public bool IsTwoStep { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.AdditionalFee")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_ADDITIONAL_FEE)]
     public decimal AdditionalFee { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.RetentionPolicyInDay")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_RETENTION_POLICY_IN_DAY)]
     public int RetentionPolicyInDay { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.UseSandbox")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_USE_SANDBOX)]
     public bool UseSandbox { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.AddExtraPercentageToOrderTotal")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_ADD_EXTRA_PERCENTAGE_TO_ORDER_TOTAL)]
     public decimal AddExtraPercentageToOrderTotal { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.AddExtraToOrderTotal")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_ADD_EXTRA_TO_ORDER_TOTAL)]
     public decimal AddExtraToOrderTotal { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.HasDetailedItems")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_HAS_DETAILED_ITEMS)]
     public bool HasDetailedItems { get; set; } = true;
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.OneItemName")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_ONE_ITEM_NAME)]
     public string OneItemName { get; set; }
-    [NopResourceDisplayName("Plugins.Payments.SimplePay.Fields.OtpIpnAddress")]
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_OTP_IPN_ADDRESS)]
     public string OtpIpnAddress { get; set; }
 }

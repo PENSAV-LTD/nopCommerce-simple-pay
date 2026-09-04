@@ -28,5 +28,10 @@ public class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: "SimplePayControllerTimeout",
             pattern: "SimplePayCallback/Timeout",
             defaults: new { controller = "SimplePayCallback", action = "Timeout" });
+
+        endpointRouteBuilder.MapControllerRoute(name: SimplePayDefaults.ConfigurationRouteName,
+            pattern: "Admin/SimplePayConfiguration/Configure",
+            defaults: new { controller = "SimplePayConfiguration", action = "Configure", area = AreaNames.ADMIN });
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Nop.Core.Configuration;
 using Nop.Plugin.Payments.SimplePay.Models;
+using Nop.Plugin.Payments.SimplePay.Processes;
 
 namespace Nop.Plugin.Payments.SimplePay.Settings;
 public class SimplePaySettings : ISettings
@@ -20,5 +21,5 @@ public class SimplePaySettings : ISettings
     public decimal AddExtraToOrderTotal { get; set; }
     public bool HasDetailedItems { get; set; } = true;
     public string OneItemName { get; set; }
-    public IPAddress OtpIpnAddress { get; set; }
+    public Uri OtpIpnAddress { get; set; } = new Uri(SimplePaySandboxUrls.START_URL);
 }

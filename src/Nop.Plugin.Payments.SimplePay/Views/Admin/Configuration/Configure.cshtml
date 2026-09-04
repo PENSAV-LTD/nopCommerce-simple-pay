@@ -29,10 +29,90 @@
                     </div>
                     <div class="col-md-9">
                         <nop-editor asp-for="DefaultCurrency" />
-                        <span asp-validation-for="DefaultCurrency"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <nop-label asp-for="IsDefaultCurrencyUsed" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="IsDefaultCurrencyUsed" />
+                    </div>
+                    <div class="col-md-3">
+                        <nop-label asp-for="IsTwoStep" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="IsTwoStep" />
+                    </div>
+                    <div class="col-md-3">
+                        <nop-label asp-for="AdditionalFee" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalFee" />
+                        <span asp-validation-for="AdditionalFee"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <nop-label asp-for="UseSandbox" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UseSandbox" />
+                    </div>
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddExtraPercentageToOrderTotal" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AddExtraPercentageToOrderTotal" />
+                        <span asp-validation-for="AddExtraPercentageToOrderTotal"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddExtraToOrderTotal" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AddExtraToOrderTotal" />
+                        <span asp-validation-for="AddExtraToOrderTotal"></span>
+                    </div>
+                    <!-- Advanced settings -->
+                    <div id="prominently-card" class="card card-default advanced-setting">
+                        <div class="card-header">
+                            @T(Configuration.SIMPLE_PAY_CONFIGURATION_ADVANCED)
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row advanced-setting">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="RetentionPolicyInDay" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="RetentionPolicyInDay" />
+                                    <span asp-validation-for="RetentionPolicyInDay"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <nop-label asp-for="HasDetailedItems" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="HasDetailedItems" />
+                                </div>
+                                <div class="col-md-3">
+                                    <nop-label asp-for="OneItemName" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="OneItemName" />
+                                    <span asp-validation-for="OneItemName"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <nop-label asp-for="OtpIpnAddress" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="OtpIpnAddress" />
+                                    <span asp-validation-for="OtpIpnAddress"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="form-group row" id="pnlSave">
+                <div class="col-md-9 offset-md-3">
+                    <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                </div>
+            </div>
         </div>
-    </div
+    </div>
 </form>

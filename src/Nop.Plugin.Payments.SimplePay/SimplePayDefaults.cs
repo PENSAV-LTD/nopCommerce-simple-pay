@@ -11,5 +11,5 @@ public class SimplePayDefaults
     /// Gets the plugin system name
     /// </summary>
     public static string SystemName => "Payments.SimplePay";
-
+    public static string ConfigurationRouteName => "Plugin.Payments.SimplePay.Configure";
 }

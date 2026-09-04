@@ -27,7 +27,8 @@ public class SimplePayStartRequest
     private readonly ICountryService _countryService;
     private readonly IStateProvinceService _stateProvinceService;
     private readonly IProductService _productService;
-    private readonly IUrlHelper _urlHelper;
+    private readonly IUrlHelperFactory _urlHelperFactory;
+    private readonly IActionContextAccessor _actionContextAccessor;
 
     public SimplePayStartRequest(
         SimplePaySettings settings,
@@ -50,7 +51,8 @@ public class SimplePayStartRequest
         _countryService = countryService;
         _stateProvinceService = stateProvinceService;
         _productService = productService;
-        _urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
+        _urlHelperFactory = urlHelperFactory;
+        _actionContextAccessor = actionContextAccessor;
     }
     public async Task<StartRequest> CreateStartRequestAsync(Order order)
     {
@@ -66,6 +68,7 @@ public class SimplePayStartRequest
             orderTotal += _settings.AddExtraToOrderTotal;
         }
 
+        var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
         return new StartRequest
         {
             Salt = _saltGenerator.Generate(),
@@ -83,10 +86,10 @@ public class SimplePayStartRequest
             SdkVersion = _settings.SdkVersion,
             Urls = new Urls
             {
-                Success = _urlHelper.Action("Success", "SimplePayCallback"),
-                Fail = _urlHelper.Action("Fail", "SimplePayCallback"),
-                Cancel = _urlHelper.Action("Cancel", "SimplePayCallback"),
-                Timeout = _urlHelper.Action("Timeout", "SimplePayCallback"),
+                Success = urlHelper.Action("Success", "SimplePayCallback"),
+                Fail = urlHelper.Action("Fail", "SimplePayCallback"),
+                Cancel = urlHelper.Action("Cancel", "SimplePayCallback"),
+                Timeout = urlHelper.Action("Timeout", "SimplePayCallback"),
             },
         };
     }

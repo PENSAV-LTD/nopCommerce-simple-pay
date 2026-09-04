@@ -12,6 +12,7 @@ using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
+using Nop.Web.Framework.Mvc.Routing;
 
 namespace Nop.Plugin.Payments.SimplePay;
 public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
@@ -117,17 +118,36 @@ public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
 
     public override string GetConfigurationPageUrl()
     {
-        return $"{_webHelper.GetStoreLocation()}Admin/SimplePayConfiguration/Configure";
+        return _nopUrlHelper.RouteUrl(SimplePayDefaults.ConfigurationRouteName);
     }
 
     public override async Task InstallAsync()
     {
         await _settingService.SaveSettingAsync(new SimplePaySettings());
 
-        await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
-        {
-        });
+        var allLanguages = await _languageService.GetAllLanguagesAsync();
+        var hungarianLanguage = allLanguages.FirstOrDefault(l => l.Name == "Magyar");
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Callback.EnglishTranslation);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Callback.HungarianTranslation, hungarianLanguage?.Id ?? 0);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Configuration.EnglishTranslation);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Configuration.HungarianTranslation, hungarianLanguage?.Id ?? 0);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Common.EnglishTranslation);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Common.HungarianTranslation, hungarianLanguage?.Id ?? 0);
         await base.InstallAsync();
+    }
+
+    public override async Task UninstallAsync()
+    {
+        await _settingService.DeleteSettingAsync<SimplePaySettings>();
+        var allLanguages = await _languageService.GetAllLanguagesAsync();
+        var hungarianLanguage = allLanguages.FirstOrDefault(l => l.Name == "Magyar");
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Callback.EnglishTranslation.Keys.ToList());
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Callback.HungarianTranslation.Keys.ToList(), hungarianLanguage?.Id ?? 0);
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Configuration.EnglishTranslation.Keys.ToList());
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Configuration.HungarianTranslation.Keys.ToList(), hungarianLanguage?.Id ?? 0);
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Common.EnglishTranslation.Keys.ToList());
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Common.HungarianTranslation.Keys.ToList(), hungarianLanguage?.Id ?? 0);
+        await base.UninstallAsync();
     }
 
     private readonly SimplePaySettings _simplePaySettings;
@@ -136,6 +156,8 @@ public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ISettingService _settingService;
     protected readonly ILocalizationService _localizationService;
+    private readonly ILanguageService _languageService;
+    private readonly INopUrlHelper _nopUrlHelper;
     protected readonly IWebHelper _webHelper;
 
     public SimplePayPaymentProcessor(
@@ -145,6 +167,8 @@ public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
         IHttpContextAccessor httpContextAccessor,
         ISettingService settingService, 
         ILocalizationService localizationService,
+        ILanguageService languageService,
+        INopUrlHelper nopUrlHelper,
         IWebHelper webHelper) 
     {
         _simplePaySettings = simplePaySettings;
@@ -153,6 +177,8 @@ public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
         _httpContextAccessor = httpContextAccessor;
         _settingService = settingService;
         _localizationService = localizationService;
+        _languageService = languageService;
+        _nopUrlHelper = nopUrlHelper;
         _webHelper = webHelper;
     }
 }
