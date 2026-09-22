@@ -2,7 +2,7 @@
 using Nop.Core.Domain.Stores;
 
 namespace Nop.Plugin.Payments.SimplePay.ViewModels;
-public class PaymentViewModel
+public class PaymentInfoViewModel
 {
     public Store CurrentStore { get;set; }
     public Order Order { get; set; }

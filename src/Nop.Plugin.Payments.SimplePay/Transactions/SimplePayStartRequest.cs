@@ -73,6 +73,7 @@ public class SimplePayStartRequest
         {
             Salt = _saltGenerator.Generate(),
             OrderRef = order.Id.ToString(),
+            Language = _settings.DefaultLanguage,
             Total = Convert.ToInt32(orderTotal),
             Currency = _settings.IsDefaultCurrencyUsed ? _settings.DefaultCurrency : order.CustomerCurrencyCode,
             Merchant = _settings.MerchantKey,
@@ -86,10 +87,10 @@ public class SimplePayStartRequest
             SdkVersion = _settings.SdkVersion,
             Urls = new Urls
             {
-                Success = urlHelper.Action("Success", "SimplePayCallback"),
-                Fail = urlHelper.Action("Fail", "SimplePayCallback"),
-                Cancel = urlHelper.Action("Cancel", "SimplePayCallback"),
-                Timeout = urlHelper.Action("Timeout", "SimplePayCallback"),
+                Success = urlHelper.ActionLink("Success", "SimplePayCallback"),
+                Fail = urlHelper.ActionLink("Fail", "SimplePayCallback"),
+                Cancel = urlHelper.ActionLink("Cancel", "SimplePayCallback"),
+                Timeout = urlHelper.ActionLink("Timeout", "SimplePayCallback"),
             },
         };
     }
@@ -148,9 +149,11 @@ public class SimplePayStartRequest
             var product = await _productService.GetProductByIdAsync(orderItem.ProductId);
             items.Add(new StartRequestItem
             {
+                Ref = product.Sku,
                 Title = product.Name,
                 Amount = orderItem.Quantity,
-                Price = orderItem.PriceInclTax,
+                Price = Convert.ToInt32(orderItem.PriceInclTax),
+                Description = product.Name,
                 Tax = 0,
             });
         }

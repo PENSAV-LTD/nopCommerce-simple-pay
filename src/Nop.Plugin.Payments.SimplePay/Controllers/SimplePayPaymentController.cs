@@ -24,7 +24,7 @@ public class SimplePayPaymentController : BasePublicController
         var order = await _orderService.GetOrderByIdAsync(orderId);
         if (order == null)
             throw new ArgumentException("No order found with the specified id");
-        var model = new ViewModels.PaymentViewModel
+        var model = new ViewModels.PaymentInfoViewModel
         {
             Order = order,
             PaymentUrl = paymentUrl,

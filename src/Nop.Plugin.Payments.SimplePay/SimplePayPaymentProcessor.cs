@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
+using Nop.Core.Domain.Payments;
 using Nop.Plugin.Payments.SimplePay.Components;
 using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Processes;
@@ -41,10 +42,9 @@ public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
         throw new NotImplementedException();
     }
 
-    public Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
+    public async Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
     {
-        // finish call
-        throw new NotImplementedException();
+        return await Task.FromResult(new CapturePaymentResult());
     }
 
     public Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
@@ -89,9 +89,12 @@ public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
         _httpContextAccessor.HttpContext.Response.Redirect(url);
     }
 
-    public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
+    public async Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
     {
-        return Task.FromResult(new ProcessPaymentResult());
+        return new ProcessPaymentResult
+        {
+            NewPaymentStatus = PaymentStatus.Pending
+        };
     }
 
     public Task<ProcessPaymentResult> ProcessRecurringPaymentAsync(ProcessPaymentRequest processPaymentRequest)

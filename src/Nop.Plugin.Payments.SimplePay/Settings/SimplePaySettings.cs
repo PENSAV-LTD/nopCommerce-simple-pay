@@ -10,6 +10,7 @@ public class SimplePaySettings : ISettings
     public const PaymentMethods DEFAULT_PAYMENT_METHODS = PaymentMethods.Card;
     public string MerchantKey { get;set; }
     public string DefaultCurrency { get; set; }
+    public string DefaultLanguage { get; set; } = "HU";
     public PaymentMethods DefaultPaymentMethods { get; set; } = DEFAULT_PAYMENT_METHODS;
     public bool IsDefaultCurrencyUsed { get; set; }
     public bool IsTwoStep { get; set; }

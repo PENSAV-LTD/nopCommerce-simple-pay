@@ -75,8 +75,8 @@ public class SimplePayPaymentControllerTests
 
         var result = await _sut.Payment(paymentUrl, 1);
 
-        result.Model.Should().BeOfType<PaymentViewModel>();
-        var model = result.Model as PaymentViewModel;
+        result.Model.Should().BeOfType<PaymentInfoViewModel>();
+        var model = result.Model as PaymentInfoViewModel;
         model.Should().NotBeNull();
         model.PaymentUrl.Should().Be(paymentUrl);
     }
