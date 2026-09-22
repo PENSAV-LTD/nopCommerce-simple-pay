@@ -42,7 +42,7 @@ public class SimplePayStart
         var simplePayUrlProvider = GetSimplePayUrlProvider();
         var message = JsonSerializer.Serialize(request, _options);
         using StringContent content = new(message, Encoding.UTF8, "application/json");
-        content.Headers.Add("signature", _messageToSendValidator.CalculateSignature(request.Merchant, message));
+        content.Headers.Add("Signature", _messageToSendValidator.CalculateSignature(request.Merchant, message));
 
         var client = _httpClientFactory.CreateClient();
         using HttpResponseMessage response = await client.PostAsync(simplePayUrlProvider.StartUrl, content);
