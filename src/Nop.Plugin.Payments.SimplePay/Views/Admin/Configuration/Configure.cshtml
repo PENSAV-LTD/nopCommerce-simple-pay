@@ -18,6 +18,13 @@
             <div class="card-body">
                 <div class="form-group row">
                     <div class="col-md-3">
+                        <nop-label asp-for="Merchant" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Merchant" />
+                        <span asp-validation-for="Merchant"></span>
+                    </div>
+                    <div class="col-md-3">
                         <nop-label asp-for="MerchantKey" />
                     </div>
                     <div class="col-md-9">

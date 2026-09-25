@@ -1,8 +1,5 @@
-﻿using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.EMMA;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Http.Extensions;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Plugin.Payments.SimplePay.ViewModels;
 using Nop.Services.Configuration;
@@ -32,6 +29,7 @@ public class SimplePayConfigurationController : BasePaymentController
         var settings = await _settingService.LoadSettingAsync<SimplePaySettings>(store.Id);
         return new SimplePayConfigurationModel
         {
+            Merchant = settings.Merchant,
             MerchantKey = settings.MerchantKey,
             DefaultCurrency = settings.DefaultCurrency,
             IsDefaultCurrencyUsed = settings.IsDefaultCurrencyUsed,
@@ -57,6 +55,7 @@ public class SimplePayConfigurationController : BasePaymentController
         var storeId = (await _storeContext.GetCurrentStoreAsync()).Id;
         var settings = await _settingService.LoadSettingAsync<SimplePaySettings>(storeId);
 
+        settings.Merchant = configuration.Merchant;
         settings.MerchantKey = configuration.MerchantKey;
         settings.DefaultCurrency = configuration.DefaultCurrency;
         settings.IsDefaultCurrencyUsed = configuration.IsDefaultCurrencyUsed;
@@ -70,6 +69,7 @@ public class SimplePayConfigurationController : BasePaymentController
         settings.OneItemName = configuration.OneItemName;
         settings.OtpIpnAddress = configuration.OtpIpnAddress != null ? new Uri(configuration.OtpIpnAddress) : null;
 
+        await _settingService.SaveSettingAsync(settings, setting => setting.Merchant, storeId);
         await _settingService.SaveSettingAsync(settings, setting => setting.MerchantKey, storeId);
         await _settingService.SaveSettingAsync(settings, setting => setting.DefaultCurrency, storeId);
         await _settingService.SaveSettingAsync(settings, setting => setting.IsDefaultCurrencyUsed, storeId);

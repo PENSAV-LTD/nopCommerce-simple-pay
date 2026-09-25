@@ -4,6 +4,8 @@ using Nop.Web.Framework.Mvc.ModelBinding;
 namespace Nop.Plugin.Payments.SimplePay.ViewModels;
 public class SimplePayConfigurationModel
 {
+    [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_MERCHANT)]
+    public string Merchant { get; set; }
     [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_MERCHANT_KEY)]
     public string MerchantKey { get; set; }
     [NopResourceDisplayName(Translations.Configuration.SIMPLE_PAY_FIELDS_DEFAULT_CURRENCY)]

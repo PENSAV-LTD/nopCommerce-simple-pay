@@ -78,15 +78,7 @@ public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
         var startResponse = await _simplePayStart.Send(startRequest);
         if (string.IsNullOrEmpty(startResponse.PaymentUrl))
             throw new NopException("Payment URL is empty");
-        var url = QueryHelpers.
-            AddQueryString(
-            $"{_webHelper.GetStoreLocation()}/SimplePay/Payment",
-            new List<KeyValuePair<string, string>>
-            {
-                new("paymentUrl", startResponse.PaymentUrl),
-                new("orderId", postProcessPaymentRequest.Order.Id.ToString())
-            });
-        _httpContextAccessor.HttpContext.Response.Redirect(url);
+        _httpContextAccessor.HttpContext.Response.Redirect(startResponse.PaymentUrl);
     }
 
     public async Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)

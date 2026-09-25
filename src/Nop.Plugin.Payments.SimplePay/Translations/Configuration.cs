@@ -5,6 +5,7 @@ public class Configuration
     public const string SIMPLE_PAY_ONBOARDING_DESCRIPTION = "Plugins.Payments.SimplePay.Onboarding.Description";
     public const string SIMPLE_PAY_CONFIGURATION_ADVANCED = "Plugins.Payments.SimplePay.Configuration.Advanced";
 
+    public const string SIMPLE_PAY_FIELDS_MERCHANT = "Plugins.Payments.SimplePay.Fields.Merchant";
     public const string SIMPLE_PAY_FIELDS_MERCHANT_KEY = "Plugins.Payments.SimplePay.Fields.MerchantKey";
     public const string SIMPLE_PAY_FIELDS_DEFAULT_CURRENCY = "Plugins.Payments.SimplePay.Fields.DefaultCurrency";
     public const string SIMPLE_PAY_FIELDS_IS_DEFAULT_CURRENCY_USED = "Plugins.Payments.SimplePay.Fields.IsDefaultCurrencyUsed";
@@ -23,7 +24,9 @@ public class Configuration
         {SIMPLE_PAY_ONBOARDING_TITLE, "Connect SimplePay account" },
         {SIMPLE_PAY_ONBOARDING_DESCRIPTION, "To use SimplePay payment method, you need to connect your SimplePay account. Please click the button below to start the onboarding process." },
         {SIMPLE_PAY_CONFIGURATION_ADVANCED, "Advanced Settings" },
-        {SIMPLE_PAY_FIELDS_MERCHANT_KEY, "Merchant Key" },
+        { SIMPLE_PAY_FIELDS_MERCHANT, "Merchant" },
+        {$"{SIMPLE_PAY_FIELDS_MERCHANT}{Common.HINT}", "The merchant identifier for SimplePay integration" },
+        { SIMPLE_PAY_FIELDS_MERCHANT_KEY, "Merchant Key" },
         {$"{SIMPLE_PAY_FIELDS_MERCHANT_KEY}{Common.HINT}", "The merchant key for SimplePay integration" },
         {SIMPLE_PAY_FIELDS_DEFAULT_CURRENCY, "Default Currency" },
         {$"{SIMPLE_PAY_FIELDS_DEFAULT_CURRENCY}{Common.HINT}", "The default currency for SimplePay transactions" },
@@ -54,6 +57,8 @@ public class Configuration
         {SIMPLE_PAY_ONBOARDING_TITLE, "Csatlakozás a SimplePay fiókhoz" },
         {SIMPLE_PAY_ONBOARDING_DESCRIPTION, "A SimplePay fizetési mód használatához csatlakoztatnia kell a SimplePay fiókját. Kérjük, kattintson az alábbi gombra az onboarding folyamat elindításához." },
         {SIMPLE_PAY_CONFIGURATION_ADVANCED, "Haladó Beállítások" },
+        {SIMPLE_PAY_FIELDS_MERCHANT, "Kereskedő" },
+        {$"{SIMPLE_PAY_FIELDS_MERCHANT}{Common.HINT}", "A SimplePay integrációhoz szükséges kereskedői azonosító" },
         {SIMPLE_PAY_FIELDS_MERCHANT_KEY, "Kereskedői kulcs" },
         {$"{SIMPLE_PAY_FIELDS_MERCHANT_KEY}{Common.HINT}", "A SimplePay integrációhoz szükséges kereskedői kulcs" },
         {SIMPLE_PAY_FIELDS_DEFAULT_CURRENCY, "Alapértelmezett pénznem" },

@@ -7,6 +7,8 @@ public class BaseModel
     public string Salt { get; set; }
     [JsonPropertyName("merchant")]
     public string Merchant { get; set; }
+    [JsonPropertyName("merchantKey")]
+    public string MerchantKey { get; set; }
     [JsonPropertyName("orderRef")]
     public string OrderRef { get; set; }
 }
