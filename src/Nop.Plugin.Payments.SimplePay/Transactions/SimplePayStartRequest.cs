@@ -77,7 +77,6 @@ public class SimplePayStartRequest
             Total = Convert.ToInt32(orderTotal),
             Currency = _settings.IsDefaultCurrencyUsed ? _settings.DefaultCurrency : order.CustomerCurrencyCode,
             Merchant = _settings.Merchant,
-            MerchantKey = _settings.MerchantKey,
             ShippingCost = Convert.ToInt32(order.OrderShippingInclTax),
             Discount = Convert.ToInt32(order.OrderDiscount),
             Items = _settings.HasDetailedItems ? await CreateItems(orderItems) : CreateOneItem(orderItems),

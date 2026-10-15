@@ -1,5 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.IO;
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Payments.SimplePay.Exceptions;
 using Nop.Plugin.Payments.SimplePay.Messages.Validators;
 using Nop.Plugin.Payments.SimplePay.Models;
@@ -31,8 +34,14 @@ public class SimplePayIpnController : BasePublicController
         _simplePaySettings = simplePaySettings;
     }
 
-    public async Task<string> Ipn(string jsonString)
+    [HttpPost]
+    public async Task<string> Ipn([FromBody] string param)
     {
+        Request.EnableBuffering();
+        using var reader = new StreamReader(Request.Body, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: true);
+        var jsonString = await reader.ReadToEndAsync();
+        Request.Body.Position = 0;
+
         if (!ValidateSignature(jsonString))
         {
             throw new SimplePayInvalidSignatureException();
@@ -46,7 +55,10 @@ public class SimplePayIpnController : BasePublicController
         if (request.Status == IpnStatuses.FINISHED)
         {
             var order = await _orderService.GetOrderByIdAsync(orderId);
-            await _orderProcessingService.MarkOrderAsPaidAsync(order);
+            if (order.PaymentStatus != Core.Domain.Payments.PaymentStatus.Paid)
+            {
+                await _orderProcessingService.MarkOrderAsPaidAsync(order);
+            }
         }
 
         var response = SetResponseMessageAndHeader(request);

@@ -7,7 +7,7 @@ namespace Nop.Plugin.Payments.SimplePay.Settings;
 public class SimplePaySettings : ISettings
 {
     public const string SDK_VERSION = "SimplePayV2.1_Payment_NopCommerce_by_pensav_1.0.0.0";
-    public const PaymentMethods DEFAULT_PAYMENT_METHODS = PaymentMethods.Card;
+    public const PaymentMethods DEFAULT_PAYMENT_METHODS = PaymentMethods.CARD;
     public string Merchant { get; set; }
     public string MerchantKey { get; set; }
     public string DefaultCurrency { get; set; } = "HUF";

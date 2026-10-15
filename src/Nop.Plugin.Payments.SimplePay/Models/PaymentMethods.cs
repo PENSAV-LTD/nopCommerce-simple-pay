@@ -4,9 +4,9 @@ namespace Nop.Plugin.Payments.SimplePay.Models;
 public enum PaymentMethods
 {
     [Description("CARD")]
-    Card = 1,
+    CARD = 1,
     [Description("WIRE")]
-    Wire = 2,
+    WIRE = 2,
 }
 
 public static class PaymentMethodsExtensions
