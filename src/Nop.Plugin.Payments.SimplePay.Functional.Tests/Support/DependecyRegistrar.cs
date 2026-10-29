@@ -19,6 +19,7 @@ using Nop.Services.Customers;
 using Nop.Services.Directory;
 using Nop.Services.Localization;
 using Nop.Services.Orders;
+using Nop.Services.Helpers;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 
 namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.Support;
