@@ -32,7 +32,7 @@ public class SimplePayCallbackController : BasePublicController
         var response = await ProcessResponse(r, s);
         if (response.Event != "SUCCESS")
             throw new InvalidOperationException("Invalid event type for success callback: " + response.Event);
-        return View("~/Plugins/Payments.SimplePay/Views/Callback/Success.cshtml");
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Success.cshtml", response);
     }
 
     public async Task<ViewResult> Fail(string r, string s)
@@ -40,7 +40,7 @@ public class SimplePayCallbackController : BasePublicController
         var response = await ProcessResponse(r, s);
         if (response.Event != "FAIL")
             throw new InvalidOperationException("Invalid event type for fail callback: " + response.Event);
-        return View("~/Plugins/Payments.SimplePay/Views/Callback/Fail.cshtml");
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Fail.cshtml", response);
     }
 
     public async Task<ViewResult> Cancel(string r, string s)
@@ -48,7 +48,7 @@ public class SimplePayCallbackController : BasePublicController
         var response = await ProcessResponse(r, s);
         if (response.Event != "CANCEL")
             throw new InvalidOperationException("Invalid event type for cancel callback: " + response.Event);
-        return View("~/Plugins/Payments.SimplePay/Views/Callback/Cancel.cshtml");
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Cancel.cshtml", response);
     }
 
     public async Task<ViewResult> Timeout(string r, string s)
@@ -56,7 +56,7 @@ public class SimplePayCallbackController : BasePublicController
         var response = await ProcessResponse(r, s);
         if (response.Event != "TIMEOUT")
             throw new InvalidOperationException("Invalid event type for timeout callback: " + response.Event);
-        return View("~/Plugins/Payments.SimplePay/Views/Callback/Timeout.cshtml");
+        return View("~/Plugins/Payments.SimplePay/Views/Callback/Timeout.cshtml", response);
     }
 
     private async Task<CallbackResponse> ProcessResponse(string jsonString, string signature)
