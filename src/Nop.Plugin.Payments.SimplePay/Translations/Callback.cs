@@ -7,7 +7,7 @@ public class Callback
     public const string FAILED_MESSAGE = "Nop.Plugin.Payments.SimplePay.Callback.Fail.Message";
     public const string SUCCESS_HEADER = "Nop.Plugin.Payments.SimplePay.Callback.Success.Header";
 
-    public IDictionary<string, string> EnglishTranslation = new Dictionary<string, string>()
+    public static readonly IDictionary<string, string> EnglishTranslation = new Dictionary<string, string>()
     {
         {CANCELLATION_HEADER, "Payment has cancelled" },
         {TIMEOUT_HEADER, "Timeout" },
@@ -16,7 +16,7 @@ public class Callback
         {SUCCESS_HEADER, "Successful transaction" },
     };
 
-    public IDictionary<string, string> HungarianTranslation = new Dictionary<string, string>()
+    public static readonly IDictionary<string, string> HungarianTranslation = new Dictionary<string, string>()
     {
         {CANCELLATION_HEADER, "Megszakított fizetés" },
         {TIMEOUT_HEADER, "Időtúllépés" },

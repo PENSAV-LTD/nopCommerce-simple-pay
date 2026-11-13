@@ -1,27 +1,28 @@
-﻿using System.Net.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
+﻿using Microsoft.AspNetCore.Http;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
+using Nop.Core.Domain.Payments;
 using Nop.Plugin.Payments.SimplePay.Components;
-using Nop.Plugin.Payments.SimplePay.Models.Requests;
 using Nop.Plugin.Payments.SimplePay.Processes;
 using Nop.Plugin.Payments.SimplePay.Settings;
 using Nop.Plugin.Payments.SimplePay.Transactions;
 using Nop.Services.Configuration;
+using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Payments;
+using Nop.Services.Plugins;
+using Nop.Web.Framework.Mvc.Routing;
 
 namespace Nop.Plugin.Payments.SimplePay;
-public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
+public class SimplePayPaymentProcessor : BasePlugin, IPaymentMethod
 {
-    public bool SupportCapture => true;
+    public bool SupportCapture => false;
 
-    public bool SupportPartiallyRefund => true;
+    public bool SupportPartiallyRefund => false;
 
-    public bool SupportRefund => true;
+    public bool SupportRefund => false;
 
-    public bool SupportVoid => true;
+    public bool SupportVoid => false;
 
     public RecurringPaymentType RecurringPaymentType => RecurringPaymentType.NotSupported;
 
@@ -39,10 +40,9 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         throw new NotImplementedException();
     }
 
-    public Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
+    public async Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
     {
-        // finish call
-        throw new NotImplementedException();
+        return await Task.FromResult(new CapturePaymentResult());
     }
 
     public Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
@@ -76,20 +76,15 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         var startResponse = await _simplePayStart.Send(startRequest);
         if (string.IsNullOrEmpty(startResponse.PaymentUrl))
             throw new NopException("Payment URL is empty");
-        var url = QueryHelpers.
-            AddQueryString(
-            $"{_webHelper.GetStoreLocation()}/SimplePay/Payment",
-            new List<KeyValuePair<string, string>>
-            {
-                new("paymentUrl", startResponse.PaymentUrl),
-                new("orderId", postProcessPaymentRequest.Order.Id.ToString())
-            });
-        _httpContextAccessor.HttpContext.Response.Redirect(url);
+        _httpContextAccessor.HttpContext.Response.Redirect(startResponse.PaymentUrl);
     }
 
-    public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
+    public async Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
     {
-        return Task.FromResult(new ProcessPaymentResult());
+        return new ProcessPaymentResult
+        {
+            NewPaymentStatus = PaymentStatus.Pending
+        };
     }
 
     public Task<ProcessPaymentResult> ProcessRecurringPaymentAsync(ProcessPaymentRequest processPaymentRequest)
@@ -114,10 +109,49 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         throw new NotImplementedException();
     }
 
+    public override string GetConfigurationPageUrl()
+    {
+        return _nopUrlHelper.RouteUrl(SimplePayDefaults.ConfigurationRouteName);
+    }
+
+    public override async Task InstallAsync()
+    {
+        await _settingService.SaveSettingAsync(new SimplePaySettings());
+
+        var allLanguages = await _languageService.GetAllLanguagesAsync();
+        var hungarianLanguage = allLanguages.FirstOrDefault(l => l.Name == "Magyar");
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Callback.EnglishTranslation);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Callback.HungarianTranslation, hungarianLanguage?.Id ?? 0);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Configuration.EnglishTranslation);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Configuration.HungarianTranslation, hungarianLanguage?.Id ?? 0);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Common.EnglishTranslation);
+        await _localizationService.AddOrUpdateLocaleResourceAsync(Translations.Common.HungarianTranslation, hungarianLanguage?.Id ?? 0);
+        await base.InstallAsync();
+    }
+
+    public override async Task UninstallAsync()
+    {
+        await _settingService.DeleteSettingAsync<SimplePaySettings>();
+        var allLanguages = await _languageService.GetAllLanguagesAsync();
+        var hungarianLanguage = allLanguages.FirstOrDefault(l => l.Name == "Magyar");
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Callback.EnglishTranslation.Keys.ToList());
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Callback.HungarianTranslation.Keys.ToList(), hungarianLanguage?.Id ?? 0);
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Configuration.EnglishTranslation.Keys.ToList());
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Configuration.HungarianTranslation.Keys.ToList(), hungarianLanguage?.Id ?? 0);
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Common.EnglishTranslation.Keys.ToList());
+        await _localizationService.DeleteLocaleResourcesAsync(Translations.Common.HungarianTranslation.Keys.ToList(), hungarianLanguage?.Id ?? 0);
+        await base.UninstallAsync();
+    }
+
     private readonly SimplePaySettings _simplePaySettings;
     private readonly SimplePayStart _simplePayStart;
     private readonly SimplePayStartRequest _simplePayStartRequest;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ISettingService _settingService;
+    protected readonly ILocalizationService _localizationService;
+    private readonly ILanguageService _languageService;
+    private readonly INopUrlHelper _nopUrlHelper;
+    protected readonly IWebHelper _webHelper;
 
     public SimplePayPaymentProcessor(
         SimplePaySettings simplePaySettings,
@@ -126,12 +160,18 @@ public class SimplePayPaymentProcessor : SimplePayPaymentModule, IPaymentMethod
         IHttpContextAccessor httpContextAccessor,
         ISettingService settingService, 
         ILocalizationService localizationService,
+        ILanguageService languageService,
+        INopUrlHelper nopUrlHelper,
         IWebHelper webHelper) 
-        : base(settingService, localizationService, webHelper)
     {
         _simplePaySettings = simplePaySettings;
         _simplePayStart = simplePayStart;
         _simplePayStartRequest = simplePayStartRequest;
         _httpContextAccessor = httpContextAccessor;
+        _settingService = settingService;
+        _localizationService = localizationService;
+        _languageService = languageService;
+        _nopUrlHelper = nopUrlHelper;
+        _webHelper = webHelper;
     }
 }

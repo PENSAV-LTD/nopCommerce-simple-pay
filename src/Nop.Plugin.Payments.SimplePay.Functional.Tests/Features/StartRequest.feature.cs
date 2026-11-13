@@ -114,7 +114,7 @@ this.ScenarioInitialize(scenarioInfo);
     await testRunner.GivenAsync("Merchant key is set as \"PUBLICTESTHUF\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
-    await testRunner.WhenAsync("StartRequest is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("StartRequest is sent with merchant key", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
     await testRunner.ThenAsync("Merchant key is \"PUBLICTESTHUF\" in the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

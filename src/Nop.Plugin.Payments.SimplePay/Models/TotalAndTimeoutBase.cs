@@ -4,7 +4,7 @@ namespace Nop.Plugin.Payments.SimplePay.Models;
 public class TotalAndTimeoutBase : CurrencyBase
 {
     [JsonPropertyName("timeout")]
-    public DateTime Timeout { get; set; }
+    public DateTime? Timeout { get; set; } = null;
     [JsonPropertyName("total")]
     public decimal Total { get; set; }
 }

@@ -21,6 +21,12 @@ public class PaymentInfoViewComponent : NopViewComponent
     public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
     {
         var store = await _storeContext.GetCurrentStoreAsync();
-        return View("~/Plugins/Payments.SimpleyPay/Views/Components/PaymentInfo.cshtml");
+        var paymentInfoViewModel = new ViewModels.PaymentInfoViewModel
+        {
+            CurrentStore = store
+            //Order = additionalData as Nop.Core.Domain.Orders.Order,
+            //PaymentUrl = additionalData is string url ? url : null
+        };
+        return View("~/Plugins/Payments.SimplePay/Views/Components/PaymentInfo.cshtml", paymentInfoViewModel);
     }
 }

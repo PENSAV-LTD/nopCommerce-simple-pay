@@ -22,5 +22,6 @@ public class IpnResponse : IpnRequest
     }
 
     [JsonPropertyName("receiveDate")]
+    [JsonPropertyOrder(8)]
     public DateTime ReceiveDate { get; set; }
 }

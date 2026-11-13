@@ -1,13 +1,14 @@
 @using Nop.Plugin.Payments.SimplePay.Translations
+@model Nop.Plugin.Payments.SimplePay.Models.Responses.CallbackResponse
+@{
+    Layout = "_ColumnsOne";
+}
 
 <h3>
     @T(Callback.SUCCESS_HEADER);
 </h3>
 <section>
     <p>
-        @T(Common.SIMPLE_PAY_TRANSACTION);
-    </p>
-    <p>
-        @T(Callback.FAILED_MESSAGE);
+        @T(Common.SIMPLE_PAY_TRANSACTION, Model.TransactionId);
     </p>
 </section>

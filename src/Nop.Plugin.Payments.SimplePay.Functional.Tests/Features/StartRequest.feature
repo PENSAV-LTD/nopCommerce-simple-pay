@@ -5,7 +5,7 @@ Simple Pay start request call.
 # Configured merchant key is used in the request
 Scenario: Start request call with given merchant key
     Given Merchant key is set as "PUBLICTESTHUF" 
-    When  StartRequest is sent
+    When StartRequest is sent with merchant key
     Then  Merchant key is "PUBLICTESTHUF" in the request
 
 # Signature is added to header

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
@@ -25,7 +27,8 @@ public class SimplePayStartRequest
     private readonly ICountryService _countryService;
     private readonly IStateProvinceService _stateProvinceService;
     private readonly IProductService _productService;
-    private readonly IUrlHelper _urlHelper;
+    private readonly IUrlHelperFactory _urlHelperFactory;
+    private readonly IActionContextAccessor _actionContextAccessor;
 
     public SimplePayStartRequest(
         SimplePaySettings settings,
@@ -36,7 +39,8 @@ public class SimplePayStartRequest
         ICountryService countryService,
         IStateProvinceService stateProvinceService,
         IProductService productService,
-        IUrlHelper urlHelper
+        IUrlHelperFactory urlHelperFactory,
+        IActionContextAccessor actionContextAccessor
         )
     {
         _settings = settings;
@@ -47,7 +51,8 @@ public class SimplePayStartRequest
         _countryService = countryService;
         _stateProvinceService = stateProvinceService;
         _productService = productService;
-        _urlHelper = urlHelper;
+        _urlHelperFactory = urlHelperFactory;
+        _actionContextAccessor = actionContextAccessor;
     }
     public async Task<StartRequest> CreateStartRequestAsync(Order order)
     {
@@ -63,13 +68,15 @@ public class SimplePayStartRequest
             orderTotal += _settings.AddExtraToOrderTotal;
         }
 
+        var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
         return new StartRequest
         {
             Salt = _saltGenerator.Generate(),
             OrderRef = order.Id.ToString(),
+            Language = _settings.DefaultLanguage,
             Total = Convert.ToInt32(orderTotal),
             Currency = _settings.IsDefaultCurrencyUsed ? _settings.DefaultCurrency : order.CustomerCurrencyCode,
-            Merchant = _settings.MerchantKey,
+            Merchant = _settings.Merchant,
             ShippingCost = Convert.ToInt32(order.OrderShippingInclTax),
             Discount = Convert.ToInt32(order.OrderDiscount),
             Items = _settings.HasDetailedItems ? await CreateItems(orderItems) : CreateOneItem(orderItems),
@@ -80,10 +87,10 @@ public class SimplePayStartRequest
             SdkVersion = _settings.SdkVersion,
             Urls = new Urls
             {
-                Success = _urlHelper.Action("Success", "SimplePayCallback"),
-                Fail = _urlHelper.Action("Fail", "SimplePayCallback"),
-                Cancel = _urlHelper.Action("Cancel", "SimplePayCallback"),
-                Timeout = _urlHelper.Action("Timeout", "SimplePayCallback"),
+                Success = urlHelper.ActionLink("Success", "SimplePayCallback"),
+                Fail = urlHelper.ActionLink("Fail", "SimplePayCallback"),
+                Cancel = urlHelper.ActionLink("Cancel", "SimplePayCallback"),
+                Timeout = urlHelper.ActionLink("Timeout", "SimplePayCallback"),
             },
         };
     }
@@ -142,9 +149,11 @@ public class SimplePayStartRequest
             var product = await _productService.GetProductByIdAsync(orderItem.ProductId);
             items.Add(new StartRequestItem
             {
+                Ref = product.Sku,
                 Title = product.Name,
                 Amount = orderItem.Quantity,
-                Price = orderItem.PriceInclTax,
+                Price = Convert.ToInt32(orderItem.PriceInclTax),
+                Description = product.Name,
                 Tax = 0,
             });
         }

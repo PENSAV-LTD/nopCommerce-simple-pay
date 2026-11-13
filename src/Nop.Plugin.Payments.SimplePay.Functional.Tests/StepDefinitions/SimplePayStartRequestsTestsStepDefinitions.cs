@@ -30,25 +30,25 @@ namespace Nop.Plugin.Payments.SimplePay.Functional.Tests.StepDefinitions
             DependecyRegistrar.SimplePaySettings.MerchantKey = merchantKey;
         }
 
+        [When("StartRequest is sent with merchant key")]
+        public void WhenStartRequestIsSentWithMerchantKey()
+        {
+            _httpClientFactory.SetupSignature();
+            _startRequestDriver.SendStartRequest(OrderProvider.Order, _merchantKey);
+        }
+
         [StepDefinition("StartRequest is sent")]
         public void WhenStartRequestIsSent()
         {
-            if (string.IsNullOrEmpty(_merchantKey))
-            {
-                DependecyRegistrar.SimplePaySettings.MerchantKey = "TEST";
-                _httpClientFactory.SetupSignature();
-                _startRequestDriver.SendStartRequest(OrderProvider.Order);
-            }
-            else
-            {
-                _httpClientFactory.SetupSignature();
-                _startRequestDriver.SendStartRequest(OrderProvider.Order, _merchantKey);
-            }
+            DependecyRegistrar.SimplePaySettings.MerchantKey = "TEST";
+            _httpClientFactory.SetupSignature();
+            _startRequestDriver.SendStartRequest(OrderProvider.Order);
         }
 
         [When("StartRequest is sent with a customer without billing address")]
         public void WhenStartRequestIsSentWithACustomerWithoutBillingAddress()
         {
+            _httpClientFactory.SetupSignature();
             _startRequestDriver.SendStartRequest(OrderProvider.OrderWithoutBillingAddress);
         }
 

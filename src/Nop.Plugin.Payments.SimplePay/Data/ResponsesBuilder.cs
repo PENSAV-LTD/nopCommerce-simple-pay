@@ -11,7 +11,7 @@ public class ResponsesBuilder : NopEntityBuilder<Domain.Responses>
         table
             .WithColumn(nameof(Responses.Id)).AsInt32().PrimaryKey().Identity()
             .WithColumn(nameof(Responses.Code)).AsInt32().NotNullable()
-            .WithColumn(nameof(Responses.TransactionId)).AsString(100).NotNullable()
+            .WithColumn(nameof(Responses.TransactionId)).AsInt64().NotNullable()
             .WithColumn(nameof(Responses.EventId)).AsInt32().NotNullable().ForeignKey<ResponseEvents>()
             .WithColumn(nameof(Responses.MerchantId)).AsString(100).NotNullable()
             .WithColumn(nameof(Responses.OrderId)).AsString(100).NotNullable();
